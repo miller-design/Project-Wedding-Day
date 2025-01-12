@@ -5,7 +5,7 @@ import { Provider } from "jotai";
 
 import "@/styles/app.scss";
 
-import { geistMono, geistSans } from "@/lib/fonts";
+import { bodoniModa, poppins } from "@/lib/fonts";
 
 export const metadata: Metadata = {
 	title: "J&P - Save the Date",
@@ -20,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<Provider>
-				<body className={clsx(geistSans.variable, geistMono.variable, "antialiased")}>
+				<body className={clsx(bodoniModa.variable, poppins.variable, "antialiased")}>
 					<main className="[ too-col ][ min-h-screen ]">{children}</main>
 				</body>
 			</Provider>

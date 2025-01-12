@@ -1,15 +1,19 @@
-import localFont from "next/font/local";
+import { Bodoni_Moda, Poppins } from "next/font/google";
 
-const geistSans = localFont({
-	src: "../../public/fonts/GeistVF.woff",
-	variable: "--font-geist-sans",
-	weight: "400 500 700"
+const bodoniModa = Bodoni_Moda({
+	weight: ["400", "700"],
+	style: ["normal", "italic"],
+	subsets: ["latin"],
+	display: "swap",
+	variable: "--font-bodoni"
 });
 
-const geistMono = localFont({
-	src: "../../public/fonts/GeistMonoVF.woff",
-	variable: "--font-geist-mono",
-	weight: "400 700"
+const poppins = Poppins({
+	weight: ["400", "500", "700"],
+	style: ["normal", "italic"],
+	subsets: ["latin"],
+	display: "swap",
+	variable: "--font-poppins"
 });
 
-export { geistSans, geistMono };
+export { bodoniModa, poppins };

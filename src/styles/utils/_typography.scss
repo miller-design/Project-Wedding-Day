@@ -8,19 +8,23 @@
  * These utility classes can be used to create a consistent visual language across the project, ensuring a cohesive look and feel.
  */
 
-/*
- * Our fonts are loaded via next/font package and defined in layout
- * --font-geist-mono
- * --font-geist-sans
- */
-
-@mixin geist($style: "default") {
-	font-style: normal;
+@mixin bodini($style: "default") {
+	font-family: var(--font-bodoni);
 
 	@if $style == "default" {
-		font-family: var(--font-geist-sans);
-	} @else if $style == "mono" {
-		font-family: var(--font-geist-mono);
+		font-style: normal;
+	} @else if ($style == "italic") {
+		font-style: italic;
+	}
+}
+
+@mixin poppins($style: "default") {
+	font-family: var(--font-poppins);
+
+	@if $style == "default" {
+		font-style: normal;
+	} @else if ($style == "italic") {
+		font-style: italic;
 	}
 }
 
@@ -32,11 +36,11 @@
 	 */
 
 	.too-primary {
-		@include geist();
+		@include poppins;
 	}
 
 	.too-secondary {
-		@include geist("mono");
+		@include bodini;
 	}
 
 	/*
