@@ -1,0 +1,30 @@
+@tailwind components;
+@tailwind utilities;
+
+.step-nav__home {
+	width: 20px;
+	height: 20px;
+}
+
+.field-description {
+	+ .render-fields {
+		margin-top: 30px;
+	}
+}
+
+// cant import tailwind base as it overwrites payload styles so creating a condenced list of classes to help style any custom modules
+.too-row {
+	@apply flex flex-row w-full items-center justify-between;
+}
+
+.too-col {
+	@apply flex flex-col w-full;
+}
+
+.too-field-gap {
+	@apply mb-[20px];
+}
+
+.too-no-margin {
+	@apply m-[0];
+}

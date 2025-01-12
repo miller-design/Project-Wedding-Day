@@ -1,0 +1,110 @@
+@use "../base/mixins" as *;
+@tailwind utilities;
+
+/*
+ * This file defines utility classes for typography styling.
+ * It leverages Tailwind CSS to generate classes that can be applied directly to HTML elements.
+ * The classes within this file are designed to provide a range of typography options, including font styles, sizes, and line heights.
+ * These utility classes can be used to create a consistent visual language across the project, ensuring a cohesive look and feel.
+ */
+
+/*
+ * Our fonts are loaded via next/font package and defined in layout
+ * --font-geist-mono
+ * --font-geist-sans
+ */
+
+@mixin geist($style: "default") {
+	font-style: normal;
+
+	@if $style == "default" {
+		font-family: var(--font-geist-sans);
+	} @else if $style == "mono" {
+		font-family: var(--font-geist-mono);
+	}
+}
+
+@layer utilities {
+	/*
+	 * The .too-primary and .too-secondary classes define the base typography styles for the application.
+	 * These classes set the font family and style, providing a consistent visual foundation for text elements.
+	 * .too-primary applies the default font style, while .too-secondary applies a secondary font style.
+	 */
+
+	.too-primary {
+		@include geist();
+	}
+
+	.too-secondary {
+		@include geist("mono");
+	}
+
+	/*
+	 * The .too-fs- classes define a range of typography sizes, each with a corresponding font size.
+	 * These classes provide a flexible way to apply consistent typography styles throughout the application.
+	 * The format is .too-fs-{mob-font-size}-{desktop-mob-font-size}, all sizes are provided in pixels and run through
+	 * a css clamp function to provide a responsive scale.
+	 *
+	 * For example, .too-fs-10 sets the font size to 10px only this is a static variation of the appraoch, while .too-fs-24-30
+	 * sets the font size to 24px for mobile and 30px for desktop and where screens fall between our clamp ratios we apply a responsive scale.
+	 */
+	.too-fs-10 {
+		@include tracking(50);
+		@include line-height(10px, 14px);
+		font-size: var(--type-10);
+	}
+
+	.too-fs-12 {
+		@include tracking(50);
+		@include line-height(12px, 16px);
+		font-size: var(--type-12);
+	}
+
+	.too-fs-14-16 {
+		@include tracking(0);
+		@include line-height(14px, 18px);
+		font-size: var(--type-14-16);
+	}
+
+	.too-fs-18-22 {
+		@include tracking(0);
+		@include line-height(18px, 20px);
+		font-size: var(--type-18-22);
+	}
+
+	.too-fs-24-30 {
+		@include tracking(0);
+		@include line-height(24px, 26px);
+		font-size: var(--type-24-30);
+	}
+
+	.too-fs-30-38 {
+		@include tracking(0);
+		@include line-height(30px, 32px);
+		font-size: var(--type-30-38);
+	}
+
+	.too-fs-42-50 {
+		@include tracking(0);
+		@include line-height(50px, 50px);
+		font-size: var(--type-42-50);
+	}
+
+	.too-fs-48-66 {
+		@include tracking(0);
+		@include line-height(66px, 66px);
+		font-size: var(--type-48-66);
+	}
+
+	.too-fs-52-90 {
+		@include tracking(0);
+		@include line-height(90px, 90px);
+		font-size: var(--type-52-90);
+	}
+
+	.too-fs-80-120 {
+		@include tracking(0);
+		@include line-height(120px, 120px);
+		font-size: var(--type-80-120);
+	}
+}

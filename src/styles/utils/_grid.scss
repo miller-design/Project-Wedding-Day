@@ -1,0 +1,33 @@
+@tailwind utilities;
+
+/*
+ * This file contains utility classes for grid layouts.
+ * It uses Tailwind CSS to generate the classes and applies them using the @apply directive.
+ */
+
+@layer utilities {
+	.too-gap {
+		column-gap: var(--grid-gap-default);
+	}
+
+	.too-site-margin {
+		margin-left: var(--site-margin-default);
+		margin-right: var(--site-margin-default);
+	}
+
+	.too-site-padding {
+		padding-left: var(--site-margin-default);
+		padding-right: var(--site-margin-default);
+	}
+
+	.too-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		@extend .too-gap;
+		@extend .too-site-margin;
+
+		@media (screen(xs)) {
+			grid-template-columns: repeat(6, 1fr);
+		}
+	}
+}

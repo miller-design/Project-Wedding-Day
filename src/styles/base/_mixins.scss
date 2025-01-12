@@ -1,0 +1,166 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "./config" as *;
+/**
+ * Retrieves a value from a nested SCSS map.
+ *
+ * @param {string} $type - The key for the nested map to access.
+ * @param {map} $scss_var - The SCSS map to search in (defaults to $css-fluid-units).
+ * @return {*} The value associated with the $type key in the specified map.
+ *
+ * This function is used to access values from multi-dimensional SCSS maps,
+ * particularly useful for retrieving fluid typography or spacing values
+ * defined in the $css-fluid-units map (or a custom map if provided).
+ */
+@function get-scss-variable($type, $scss_var: $css-fluid-units) {
+	@return map.get($scss_var, $type);
+}
+
+/**
+ * Generates a CSS clamp function for fluid typography or spacing
+ *
+ * @param $size-at-min-width - The size at the minimum viewport width
+ * @param $size-at-max-width - The size at the maximum viewport width
+ * @param $min-width - The minimum viewport width (default: from $fluid-mobile-limits)
+ * @param $max-width - The maximum viewport width (default: from $fluid-mobile-limits)
+ *
+ * @returns A CSS clamp function that:
+ *   - Returns $size-at-min-width when viewport width is below $min-width
+ *   - Returns $size-at-max-width when viewport width is above $max-width
+ *   - Scales linearly between $size-at-min-width and $size-at-max-width
+ *     for viewport widths between $min-width and $max-width
+ */
+
+@function clamp-func(
+	$size-at-min-width,
+	$size-at-max-width,
+	$min-width: map.get($fluid-mobile-limits, "min"),
+	$max-width: map.get($fluid-mobile-limits, "max")
+) {
+	$slope: calc(($size-at-max-width - $size-at-min-width) / ($max-width - $min-width));
+	$y-axis-intersection: calc(-1 * $min-width * $slope + $size-at-min-width);
+	$clamp: clamp(#{$size-at-min-width}, calc(#{$y-axis-intersection} + #{$slope} * 100vw), #{$size-at-max-width});
+
+	@return #{$clamp};
+}
+
+/**
+ * Generates CSS custom properties (variables) for fluid values eg typography and spacing
+ *
+ * This mixin iterates through the $css-fluid-units map, which contains
+ * nested maps for different types of units (e.g., 'type' for typography, 'spacing' for layout).
+ * For each unit in these nested maps, it creates a CSS custom property using the following pattern:
+ * --{type}-{unit-name}: {fluid-value}
+ *
+ * The fluid value is calculated using the clamp-func, which creates a responsive
+ * value that scales between a minimum and maximum size based on the viewport width.
+ *
+ * Example output:
+ * --type-24-32: clamp(24px, calc(-12px + 5vw), 32px);
+ * --spacing-50-100: clamp(50px, calc(-50px + 10.42vw), 100px);
+ * --spacing-100: 100px; // output for a static value
+ *
+ * These generated custom properties can then be used throughout the project
+ * to create fluid, responsive designs without the need for media queries.
+ */
+
+@mixin generate-project-vars($array_var: $css-fluid-units) {
+	$clampVal: ""; // defining var to start to prevent compile errors
+	@each $name, $units in $array_var {
+		@each $unit-name, $units in $units {
+			@if map.get($units, "static") {
+				$clampVal: map.get($units, "static");
+			} @else {
+				$min: map.get($units, "min");
+				$max: map.get($units, "max");
+				$clampVal: clamp-func($min, $max);
+			}
+			--#{$name}-#{$unit-name}: #{$clampVal};
+		}
+	}
+}
+
+/**
+ * Converts a tracking value from design software (e.g., XD, Illustrator, InDesign, Photoshop)
+ * into a CSS letter-spacing value.
+ *
+ * @param {number} $target - The tracking value in units of 1000 (e.g., 100 for 0.1em).
+ * @return {string} The calculated letter-spacing value in em units.
+ *
+ * This function takes a tracking value and converts it to a CSS-compatible
+ * letter-spacing value, allowing for precise control over the spacing
+ * between characters in typography.
+ */
+@function tracking($target) {
+	@return calc(($target / 1000) * 1em);
+}
+
+/**
+ * This mixin utilizes the tracking function to convert the provided
+ * tracking value into a CSS letter-spacing property, allowing for
+ * precise control over the spacing between characters in typography.
+ *
+ * @param {number} $target - The tracking value in units of 1000 (e.g., 100 for 0.1em).
+ *
+ * Example output:
+ * letter-spacing: 0.1em
+ */
+@mixin tracking($target) {
+	letter-spacing: tracking($target);
+}
+
+/**
+ * Converts a number to a unitless value by dividing it by itself,
+ * effectively stripping any units and returning a numeric value.
+ *
+ * @param {number} $number - The number from which to strip units.
+ * @return {number} The unitless value of the provided number.
+ *
+ * This function is useful for calculations that require numeric values
+ * without any associated units, allowing for more flexible mathematical operations.
+ */
+@function strip-units($number) {
+	@return math.div($number, $number * 0 + 1);
+}
+
+/**
+ * Applies a calculated line-height to an element based on the provided
+ * font size and line height values.
+ *
+ * @param {number} $ps-font-size - The font size in any valid CSS unit.
+ * @param {number} $ps-line-height - The desired line height in any valid CSS unit.
+ *
+ * This mixin calculates the line-height by dividing the unitless line height
+ * by the unitless font size, ensuring that the line-height is responsive
+ * and maintains the intended spacing between lines of text.
+ */
+@mixin line-height($ps-font-size, $ps-line-height) {
+	line-height: math.div(strip-units($ps-line-height), strip-units($ps-font-size));
+}
+
+/*
+ * Sets the aspect ratio for an element, providing a responsive design solution
+ * that maintains the specified ratio across different viewport sizes.
+ *
+ * This mixin applies a fallback padding size to ensure the element retains its
+ * aspect ratio when the aspect-ratio CSS property is not supported. If the
+ * browser supports the aspect-ratio property, it will be applied, and the
+ * fallback padding will be removed.
+ *
+ * @param {number} $ratio - The desired aspect ratio (width / height) for the element.
+ * @param {number} $fallback - The fallback padding size to maintain the aspect ratio
+ *                            when the aspect-ratio property is not supported (default: 62.5%).
+ *
+ * Example output:
+ * padding-bottom: 62.5%;
+ * aspect-ratio: 16 / 9; // if $ratio is set to 16 / 9
+ */
+@mixin set-aspect-ratio($ratio, $fallback: 62.5%) {
+	padding-bottom: $fallback;
+
+	@supports (aspect-ratio: 1) {
+		aspect-ratio: $ratio;
+		padding-bottom: initial;
+	}
+}

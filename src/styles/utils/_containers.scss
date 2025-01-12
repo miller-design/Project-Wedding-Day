@@ -1,0 +1,39 @@
+@use "../base/mixins" as *;
+@tailwind utilities;
+
+/*
+ * This file contains utility classes for containers.
+ * It uses Tailwind CSS to generate the classes and applies them using the @apply directive.
+ */
+
+@layer utilities {
+	.too-row {
+		@apply flex flex-row;
+	}
+
+	.too-col {
+		@apply flex flex-col;
+	}
+
+	.too-intrinsic {
+		backface-visibility: hidden;
+		@apply w-full relative bg-gray-300;
+		@include set-aspect-ratio(var(--img-ratio), var(--img-ratio-fallback));
+
+		@media (prefers-color-scheme: dark) {
+			@apply bg-gray-700;
+		}
+
+		img {
+			backface-visibility: hidden;
+			@apply w-full absolute top-[0] left-[0];
+		}
+
+		video {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+}

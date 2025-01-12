@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+/*
+ * Imports for all Base Files
+ */
+@use "base/reset";
+@use "base/config";
+@use "base/lazyLoad";
+@use "base/mixins" as *;
+
+/*
+ * Imports for all Too Util Files
+ */
+@use "utils/grid";
+@use "utils/position";
+@use "utils/containers";
+@use "utils/typography";
+
+/*
+ * import tailwind base
+ */
+@tailwind base;
+
+/*
+ * Project defaults
+ */
+:root {
+	--background: #ffffff;
+	--foreground: #171717;
+
+	@include generate-project-vars();
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+}
+
+body {
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

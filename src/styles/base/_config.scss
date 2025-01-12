@@ -1,0 +1,164 @@
+/**
+ * $fluid-mobile-limits
+ *
+ * This variable defines the minimum and maximum viewport widths for fluid unit calculations.
+ * It's used in conjunction with the clamp-func to create responsive, fluid designs.
+ * The 'min' value is typically set to a mobile breakpoint, while the 'max' is set to a desktop breakpoint.
+ */
+$fluid-mobile-limits: (
+	min: 420px,
+	max: 1600px
+);
+
+/**
+ * $css-fluid-units
+ *
+ * This variable defines fluid units for responsive design.
+ * It should contains at least two main categories: 'type' for typography and 'spacing' for layout.
+ *
+ * Each category includes key-value pairs where:
+ * - The key represents the unit name (e.g., "12-16 (mobile-desktop)" for typography)
+ * - The value is a map with 'min' and 'max' sizes in pixels
+ * - If you require a static value with no scale then you can use the 'static' key
+ *
+ * These values are used to generate CSS custom properties for fluid, responsive
+ * designs that scale between the min and max sizes based on viewport width.
+ * The generated properties are used throughout the project to create
+ * consistent, scalable designs without relying on media queries.
+ */
+
+$css-fluid-units: (
+	type: (
+		"10": (
+			static: 10px
+		),
+		"12": (
+			static: 12px
+		),
+		"14-16": (
+			min: 14px,
+			max: 16px
+		),
+		"18-22": (
+			min: 18px,
+			max: 22px
+		),
+		"24-30": (
+			min: 24px,
+			max: 32px
+		),
+		"30-38": (
+			min: 30px,
+			max: 38px
+		),
+		"42-50": (
+			min: 42px,
+			max: 50px
+		),
+		"48-66": (
+			min: 48px,
+			max: 66px
+		),
+		"52-90": (
+			min: 52px,
+			max: 90px
+		),
+		"80-120": (
+			min: 80px,
+			max: 120px
+		)
+	),
+	grid-gap: (
+		"default": (
+			min: 8px,
+			max: 14px
+		)
+	),
+	site-margin: (
+		"default": (
+			min: 20px,
+			max: 42px
+		)
+	),
+	spacing: (
+		"10": (
+			static: 10px
+		),
+		"10-20": (
+			min: 10px,
+			max: 20px
+		),
+		"20-30": (
+			min: 20px,
+			max: 30px
+		),
+		"30-40": (
+			min: 30px,
+			max: 40px
+		),
+		"40-50": (
+			min: 40px,
+			max: 50px
+		),
+		"50-60": (
+			min: 50px,
+			max: 60px
+		),
+		"60-70": (
+			min: 60px,
+			max: 70px
+		),
+		"70-80": (
+			min: 70px,
+			max: 80px
+		),
+		"80-90": (
+			min: 80px,
+			max: 90px
+		),
+		"90-100": (
+			min: 90px,
+			max: 100px
+		),
+		"100-110": (
+			min: 100px,
+			max: 110px
+		),
+		"110-120": (
+			min: 110px,
+			max: 120px
+		),
+		"120-130": (
+			min: 120px,
+			max: 130px
+		),
+		"130-140": (
+			min: 130px,
+			max: 140px
+		),
+		"140-150": (
+			min: 140px,
+			max: 150px
+		),
+		"150-160": (
+			min: 150px,
+			max: 160px
+		),
+		"160-170": (
+			min: 160px,
+			max: 170px
+		),
+		"170-180": (
+			min: 170px,
+			max: 180px
+		),
+		"180-190": (
+			min: 180px,
+			max: 190px
+		),
+		"190-200": (
+			min: 190px,
+			max: 200px
+		)
+	)
+);
