@@ -13,6 +13,7 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    media: Media;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -21,6 +22,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -88,9 +90,11 @@ export interface User {
 export interface Page {
   id: number;
   title: string;
-  hero?: {};
+  hero?: {
+    blocks?: (FullscreenHero | TextOnlyHero)[] | null;
+  };
   content?: {
-    blocks?: ContentBlock[] | null;
+    blocks?: (Title | ContentBlock | ImageCTA | Carousel | ImageAndText | Quotes)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -102,6 +106,109 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FullscreenHero".
+ */
+export interface FullscreenHero {
+  media_upload?: (number | null) | Media;
+  label?: string | null;
+  title?: string | null;
+  message?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'fullscreenHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt?: string | null;
+  _key?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    square?: {
+      _key?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    small?: {
+      _key?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      _key?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      _key?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xlarge?: {
+      _key?: string | null;
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextOnlyHero".
+ */
+export interface TextOnlyHero {
+  label?: string | null;
+  title?: string | null;
+  message?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textonlyhero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Title".
+ */
+export interface Title {
+  label?: string | null;
+  header?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'title';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -129,6 +236,81 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageCTA".
+ */
+export interface ImageCTA {
+  media_upload?: (number | null) | Media;
+  label?: string | null;
+  header?: string | null;
+  link?: {
+    link_type?: ('internal' | 'external') | null;
+    url?: string | null;
+    page?: (number | null) | Page;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imagecta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Carousel".
+ */
+export interface Carousel {
+  slider?:
+    | {
+        media_upload?: (number | null) | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageAndText".
+ */
+export interface ImageAndText {
+  layout: 'layoutA' | 'layoutB';
+  header?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'image_and_text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Quotes".
+ */
+export interface Quotes {
+  quotes?:
+    | {
+        credit?: string | null;
+        quote?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quotes';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -141,6 +323,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -208,14 +394,28 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  hero?: T | {};
+  hero?:
+    | T
+    | {
+        blocks?:
+          | T
+          | {
+              fullscreenHero?: T | FullscreenHeroSelect<T>;
+              textonlyhero?: T | TextOnlyHeroSelect<T>;
+            };
+      };
   content?:
     | T
     | {
         blocks?:
           | T
           | {
+              title?: T | TitleSelect<T>;
               content?: T | ContentBlockSelect<T>;
+              imagecta?: T | ImageCTASelect<T>;
+              carousel?: T | CarouselSelect<T>;
+              image_and_text?: T | ImageAndTextSelect<T>;
+              quotes?: T | QuotesSelect<T>;
             };
       };
   meta?:
@@ -233,12 +433,182 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FullscreenHero_select".
+ */
+export interface FullscreenHeroSelect<T extends boolean = true> {
+  media_upload?: T;
+  label?: T;
+  title?: T;
+  message?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextOnlyHero_select".
+ */
+export interface TextOnlyHeroSelect<T extends boolean = true> {
+  label?: T;
+  title?: T;
+  message?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Title_select".
+ */
+export interface TitleSelect<T extends boolean = true> {
+  label?: T;
+  header?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ContentBlock_select".
  */
 export interface ContentBlockSelect<T extends boolean = true> {
   richText?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageCTA_select".
+ */
+export interface ImageCTASelect<T extends boolean = true> {
+  media_upload?: T;
+  label?: T;
+  header?: T;
+  link?:
+    | T
+    | {
+        link_type?: T;
+        url?: T;
+        page?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Carousel_select".
+ */
+export interface CarouselSelect<T extends boolean = true> {
+  slider?:
+    | T
+    | {
+        media_upload?: T;
+        caption?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageAndText_select".
+ */
+export interface ImageAndTextSelect<T extends boolean = true> {
+  layout?: T;
+  header?: T;
+  content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Quotes_select".
+ */
+export interface QuotesSelect<T extends boolean = true> {
+  quotes?:
+    | T
+    | {
+        credit?: T;
+        quote?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  _key?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        square?:
+          | T
+          | {
+              _key?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              _key?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              _key?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              _key?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xlarge?:
+          | T
+          | {
+              _key?: T;
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -280,6 +650,7 @@ export interface SiteOption {
   id: number;
   meta_title?: string | null;
   meta_description?: string | null;
+  wedding_date?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -290,6 +661,7 @@ export interface SiteOption {
 export interface SiteOptionsSelect<T extends boolean = true> {
   meta_title?: T;
   meta_description?: T;
+  wedding_date?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

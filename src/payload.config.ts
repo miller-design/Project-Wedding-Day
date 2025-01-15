@@ -4,9 +4,12 @@ import { fileURLToPath } from "url";
 
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { resendAdapter } from "@payloadcms/email-resend";
+import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
 import { buildConfig } from "payload";
+import sharp from "sharp";
 
 import { defaultLexical } from "./collections/fields/defaultLexical";
+import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
 // Collections
 import { Users } from "./collections/Users";
@@ -23,7 +26,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname)
 		}
 	},
-	collections: [Users, Pages],
+	collections: [Users, Pages, Media],
 	globals: [SiteOptions],
 	editor: defaultLexical,
 	secret: process.env.PAYLOAD_SECRET || "",
@@ -36,8 +39,20 @@ export default buildConfig({
 		}
 	}),
 	email: resendAdapter({
-		defaultFromAddress: "no-reply@TOODEV.com",
-		defaultFromName: "TOO DEV",
+		defaultFromAddress: "no-reply@j&p-savethedate.com",
+		defaultFromName: "Jack & Paige",
 		apiKey: process.env.RESEND_API_KEY || ""
-	})
+	}),
+	plugins: [
+		uploadthingStorage({
+			collections: {
+				media: true
+			},
+			options: {
+				token: process.env.UPLOADTHING_TOKEN,
+				acl: "public-read"
+			}
+		})
+	],
+	sharp
 });
