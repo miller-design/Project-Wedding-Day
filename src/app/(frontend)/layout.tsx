@@ -5,6 +5,8 @@ import { Provider } from "jotai";
 
 import "@/styles/app.scss";
 
+import { Header } from "@/components/Header";
+
 import { bodoniModa, poppins } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -21,6 +23,7 @@ export default function RootLayout({
 		<html lang="en">
 			<Provider>
 				<body className={clsx(bodoniModa.variable, poppins.variable, "antialiased")}>
+					<Header />
 					<main className="[ too-col ][ min-h-screen ]">{children}</main>
 				</body>
 			</Provider>

@@ -21,13 +21,22 @@
 	}
 
 	.too-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		@apply grid;
+		grid-template-columns: repeat(6, 1fr);
 		@extend .too-gap;
 		@extend .too-site-margin;
 
-		@media (screen(xs)) {
-			grid-template-columns: repeat(6, 1fr);
+		@media (screen(sm)) {
+			grid-template-columns: repeat(12, 1fr);
+		}
+	}
+
+	.too-grid-inner {
+		@apply grid;
+		grid-template-columns: repeat(6, 1fr);
+
+		@media (screen(sm)) {
+			grid-template-columns: repeat(12, 1fr);
 		}
 	}
 }

@@ -1,7 +1,9 @@
 import { cache } from "react";
+
+import { draftMode } from "next/headers";
+
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import { draftMode } from "next/headers";
 import type { Config } from "src/payload-types";
 
 type Collection = keyof Config["collections"];

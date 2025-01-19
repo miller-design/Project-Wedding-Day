@@ -5,7 +5,7 @@
  * responsive sizes, and loading priorities.
  */
 
-export type Props = {
+export type TooImageProps = {
 	/** The image object containing source and alternative text. */
 	image: {
 		/** The source URL of the image. */
@@ -25,4 +25,5 @@ export type Props = {
 	q?: number;
 	/** Optional flag to indicate if the image should maintain intrinsic dimensions. */
 	intrinsic?: boolean;
+	className?: string;
 };

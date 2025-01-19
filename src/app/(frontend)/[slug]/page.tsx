@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+
+import { TooBlockLoop } from "@/components/TooBlockLoop";
 
 import { queryBySlug } from "@/lib/Payload/queries";
 
@@ -8,19 +9,13 @@ import { Page as PageType } from "@/payload-types";
 import { Args } from "./type";
 
 /**
- * Dynamic import is used to import a module only when it is needed.
- * This can help reduce the initial load time of the application.
- */
-const RichText = dynamic(() => import("@payloadcms/richtext-lexical/react").then((mod) => mod.RichText));
-
-/**
  * Type guard function to determine if a given object is of type PageType.
  * This function checks that the object is not null and has a 'title' property of type string.
  * The presence of the 'title' property is used as an indicator that the object is a PageType,
  * as 'title' is a required property for PageType objects.
  */
 const isPageType = (page: Partial<PageType> | null): page is PageType => {
-	return page !== null && typeof page.title === "string";
+	return page !== null && typeof page?.title === "string";
 };
 
 /**
@@ -54,34 +49,13 @@ const Page = async ({ params: paramsPromise }: Args) => {
 		return <></>;
 	}
 
-	const { content } = page;
+	const { hero, content } = page;
+	const blocks = [...(hero?.blocks ?? []), ...(content?.blocks ?? [])];
 
 	return (
-		<article>
-			<div className="[ too-grid ][ items-center ][ my-auto ][ pt-150-160 pb-70-80 ]">
-				<div className="[ too-col ][ col-start-1 -col-end-1 ]">
-					<div className="[ too-col gap-y-10-20 ][ pb-40-50 ]">
-						<h1 className="[ too-primary too-fs-48-66 ]">{page?.title}</h1>
-						<p>This title is pulled from the Payload cms</p>
-					</div>
-					<hr />
-				</div>
-				<div className="[ too-col ][ col-start-1 -col-end-1 ][ pt-40-50 ]">
-					{content?.blocks?.map((block, i) => {
-						switch (block.blockType) {
-							case "content":
-								if (block.richText) {
-									return (
-										<div key={i}>
-											<RichText data={block.richText} />
-										</div>
-									);
-								}
-							default:
-								return null;
-						}
-					})}
-				</div>
+		<article className="[ min-h-screen ]">
+			<div className="[ too-grid ]">
+				<TooBlockLoop blocks={blocks} />
 			</div>
 		</article>
 	);

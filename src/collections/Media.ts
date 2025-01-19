@@ -6,6 +6,9 @@ export const Media: CollectionConfig = {
 		defaultColumns: ["fileName", "updatedAt"],
 		group: "Content"
 	},
+	access: {
+		read: () => true
+	},
 	upload: {
 		staticDir: "media",
 		imageSizes: [
@@ -13,29 +16,6 @@ export const Media: CollectionConfig = {
 				name: "square",
 				width: 400,
 				height: 400,
-				position: "centre"
-			},
-			{
-				name: "small",
-				width: 700,
-				position: "centre"
-			},
-			{
-				name: "medium",
-				width: 1200,
-				height: undefined,
-				position: "centre"
-			},
-			{
-				name: "large",
-				width: 2400,
-				height: undefined,
-				position: "centre"
-			},
-			{
-				name: "xlarge",
-				width: 4000,
-				height: undefined,
 				position: "centre"
 			}
 		],

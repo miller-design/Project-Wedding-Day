@@ -4,9 +4,11 @@ import { useRef } from "react";
 
 import Image from "next/image";
 
+import clsx from "clsx";
+
 import { createImageSrcSizes, getImageRatio, getRatioFallback } from "@/lib/utils";
 
-import { Props } from "./type";
+import { TooImageProps } from "./type";
 
 /**
  * ### TooImage Component
@@ -15,7 +17,16 @@ import { Props } from "./type";
  *
  * @see {@link https://nextjs.org/docs/api-reference/next/image Image}
  */
-const TooImage: React.FC<Props> = ({ image, width, height, sizes, priority, q = 95, intrinsic = true }) => {
+const TooImage: React.FC<TooImageProps> = ({
+	image,
+	width,
+	height,
+	sizes,
+	priority,
+	q = 95,
+	intrinsic = true,
+	className
+}) => {
 	const imgSizes = createImageSrcSizes(sizes);
 	const imgRatio = getImageRatio(width, height);
 	const ratioFallback = getRatioFallback(width, height);
@@ -30,7 +41,7 @@ const TooImage: React.FC<Props> = ({ image, width, height, sizes, priority, q = 
 	if (intrinsic) {
 		return (
 			<div
-				className="[ TooImage ][ too-intrinsic ]"
+				className={clsx(["[ TooImage ][ too-intrinsic ]", className])}
 				style={{
 					[`--img-ratio` as string]: imgRatio,
 					[`--img-ratio-fallback` as string]: ratioFallback
@@ -59,7 +70,7 @@ const TooImage: React.FC<Props> = ({ image, width, height, sizes, priority, q = 
 				height={height}
 				sizes={imgSizes}
 				priority={priority}
-				className="[ w-full ][ block ]"
+				className={clsx(["[ TooImage ][ w-full ][ block ]", className])}
 				quality={q}
 			/>
 		);
