@@ -10,6 +10,10 @@
 		column-gap: var(--grid-gap-default);
 	}
 
+	.too-row-gap {
+		row-gap: var(--grid-row-gap-default);
+	}
+
 	.too-site-margin {
 		margin-left: var(--site-margin-default);
 		margin-right: var(--site-margin-default);
@@ -34,6 +38,7 @@
 	.too-grid-inner {
 		@apply grid;
 		grid-template-columns: repeat(6, 1fr);
+		@extend .too-gap;
 
 		@media (screen(sm)) {
 			grid-template-columns: repeat(12, 1fr);

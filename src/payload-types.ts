@@ -237,6 +237,7 @@ export interface Carousel {
  */
 export interface ImageAndText {
   layout: 'layoutA' | 'layoutB';
+  media_upload?: (number | null) | Media;
   header?: string | null;
   content?: {
     root: {
@@ -476,6 +477,7 @@ export interface CarouselSelect<T extends boolean = true> {
  */
 export interface ImageAndTextSelect<T extends boolean = true> {
   layout?: T;
+  media_upload?: T;
   header?: T;
   content?: T;
   id?: T;

@@ -11,6 +11,10 @@
 		@apply flex flex-row;
 	}
 
+	.too-row-reverse {
+		@apply flex-row-reverse;
+	}
+
 	.too-col {
 		@apply flex flex-col;
 	}

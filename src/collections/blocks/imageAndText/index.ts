@@ -1,6 +1,8 @@
 import { FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 import type { Block } from "payload";
 
+import { UploadField } from "@/collections/fields/upload";
+
 export const ImageAndText: Block = {
 	slug: "image_and_text",
 	interfaceName: "ImageAndText",
@@ -24,6 +26,9 @@ export const ImageAndText: Block = {
 					value: "layoutB"
 				}
 			]
+		},
+		{
+			...UploadField
 		},
 		{
 			name: "header",

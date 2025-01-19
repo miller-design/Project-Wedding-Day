@@ -4,7 +4,7 @@ import { Logo } from "../UI/Logo";
 
 const Header = () => {
 	return (
-		<header className="[ TooHeader ][ too-fixed ][ py-20-30 ]">
+		<header className="[ TooHeader ][ too-fixed z-10 ][ py-20-30 ]">
 			<div className="[ too-grid items-center ][ rounded-md ]">
 				<div className="[ col-span-3 md:col-span-4 ]">
 					<Logo />
