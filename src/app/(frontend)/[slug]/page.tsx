@@ -53,7 +53,7 @@ const Page = async ({ params: paramsPromise }: Args) => {
 	const blocks = [...(hero?.blocks ?? []), ...(content?.blocks ?? [])];
 
 	return (
-		<article className="[ min-h-screen ]">
+		<article className="[ min-h-screen ][ mb-20-30 ]">
 			<div className="[ too-grid too-row-gap ]">
 				<TooBlockLoop blocks={blocks} />
 			</div>

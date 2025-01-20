@@ -50,3 +50,16 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.embala {
+	position: relative;
+	left: calc(#{var(--site-margin-default)} * -1);
+	width: calc(100% + #{var(--site-margin-default)} * 2);
+	margin: auto;
+	overflow: hidden;
+
+	.TooImage img {
+		height: 100%;
+		object-fit: cover;
+	}
+}
