@@ -22,7 +22,7 @@ const FullScreenHero: React.FC<FullScreenHeroProps> = ({ media, label, title, me
 
 	return (
 		<section className="[ TooFullScreenHero ][ too-grid-inner ][ col-span-full ][ pt-[87px] ]">
-			<div className="[ col-span-full row-start-1 row-end-2 ][ rounded-md overflow-hidden ]">
+			<div className="[ col-span-full row-start-1 row-end-2 ][ rounded-xl overflow-hidden ]">
 				{media && outputMedia()}
 			</div>
 			<div className="[ col-span-full row-start-1 row-end-2 ][ flex justify-center items-center ]">

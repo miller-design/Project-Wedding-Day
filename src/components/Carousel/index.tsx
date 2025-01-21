@@ -12,7 +12,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 		containScroll: "keepSnaps" as const,
 		dragFree: true
 	};
-	const slideStyles = "too-col rounded-md overflow-hidden";
+	const slideStyles = "too-col rounded-xl overflow-hidden";
 	const [emblaRef] = useEmblaCarousel(options);
 
 	const getAspectRatioClass = (width: number, height: number) => {

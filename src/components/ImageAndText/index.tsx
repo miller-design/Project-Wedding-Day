@@ -10,7 +10,7 @@ const ImageAndText: React.FC<ImageAndTextProps> = ({ media, layout, content }) =
 	};
 
 	const getClassNames = (isFirst: boolean, layout: "layoutA" | "layoutB") => {
-		const baseClasses = "[ rounded-md overflow-hidden ][ col-span-full sm:col-span-6 ]";
+		const baseClasses = "[ rounded-xl overflow-hidden ][ col-span-full sm:col-span-6 ]";
 		let layoutClasses = "[ sm:row-start-1 ]";
 		let gridPosition;
 

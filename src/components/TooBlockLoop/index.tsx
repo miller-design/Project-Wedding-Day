@@ -2,101 +2,121 @@ import { Fragment } from "react";
 
 import dynamic from "next/dynamic";
 
-import { Media } from "@/payload-types";
+import type { Carousel, FullscreenHero, ImageAndText, ImageCTA, Media, TextOnlyHero } from "@/payload-types";
 
-import { Carousel } from "../Carousel";
-import { ImageAndText } from "../ImageAndText";
 import { TooImageProps } from "../TooImage/type";
 import { RichTextContent } from "../Wysiwg/type";
-import { TooBlockLoopProps } from "./type";
+import { TooBlockHandler, TooBlockLoopProps } from "./type";
 
+const ImageAndText = dynamic(() => import("../ImageAndText").then((mod) => mod.ImageAndText));
+const Carousel = dynamic(() => import("../Carousel").then((mod) => mod.Carousel));
 const FullScreenHero = dynamic(() => import("../Hero").then((mod) => mod.FullScreenHero));
+const ImageCTA = dynamic(() => import("../ImageCTA").then((mod) => mod.ImageCTA));
 
 const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
-	// image_and_text
-	// carousel
-	// imagecta
-	// quotes
+	const createMediaProps = (media: Media | null, sizes: number[], priority: boolean, intrinsic: boolean) => {
+		if (!media || typeof media !== "object") {
+			console.warn(`media_upload is not an object:`, media);
+			return null; // or handle the undefined case appropriately
+		}
+		return {
+			image: {
+				src: media.url,
+				alt: media.alt
+			},
+			width: media.width,
+			height: media.height,
+			sizes,
+			priority,
+			intrinsic
+		};
+	};
 
-	// textonlyhero
+	const handleFullScreenHero: TooBlockHandler<FullscreenHero> = (block, i) => {
+		const mediaProps = createMediaProps(block.media_upload as Media, [100], true, false);
+		if (!mediaProps) return null;
+		const blockData = {
+			label: block.label,
+			title: block.title,
+			message: block.message,
+			media: mediaProps as TooImageProps
+		};
+		return (
+			<Fragment key={i}>
+				<FullScreenHero {...blockData} />
+			</Fragment>
+		);
+	};
+
+	const handleTextOnlyHero: TooBlockHandler<TextOnlyHero> = (block, i) => {
+		console.log(block);
+		return <Fragment key={i}></Fragment>;
+	};
+
+	const handleImageAndText: TooBlockHandler<ImageAndText> = (block, i) => {
+		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, false);
+		if (!mediaProps) return null;
+		const blockData = {
+			layout: block.layout,
+			header: block.header,
+			content: block.content as RichTextContent,
+			media: mediaProps as TooImageProps
+		};
+		return (
+			<Fragment key={i}>
+				<ImageAndText {...blockData} />
+			</Fragment>
+		);
+	};
+
+	const handleCarousel: TooBlockHandler<Carousel> = (block, i) => {
+		if (block.slider && block.slider.length > 0) {
+			const slides = block.slider
+				.map((slide) => {
+					const mediaProps = createMediaProps(slide.media_upload as Media, [100, 50], false, true);
+					return mediaProps as TooImageProps | null;
+				})
+				.filter((slide): slide is TooImageProps => slide !== null); // Type guard to filter out null values
+
+			return (
+				<Fragment key={i}>
+					<Carousel slides={slides} />
+				</Fragment>
+			);
+		}
+		return null;
+	};
+
+	const handleImageCTA: TooBlockHandler<ImageCTA> = (block, i) => {
+		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, false);
+		if (!mediaProps) return null;
+		const blockData = {
+			label: block.label,
+			header: block.header,
+			media: mediaProps as TooImageProps
+		};
+		return (
+			<Fragment key={i}>
+				<ImageCTA {...blockData} />
+			</Fragment>
+		);
+	};
 
 	return (
 		<>
 			{blocks?.map((block, i) => {
-				switch (block.blockType) {
+				const blockType = block.blockType;
+				switch (blockType) {
 					case "fullscreenHero":
-						if (block) {
-							const media = block.media_upload as Media;
-							if (typeof media !== "object" || media === null) {
-								console.warn(`media_upload is not an object for block:`, block);
-								return null; // or handle the undefined case appropriately
-							}
-							const blockData = {
-								label: block.label,
-								title: block.title,
-								message: block.message,
-								media: {
-									image: {
-										src: media?.url,
-										alt: media?.alt
-									},
-									width: media.width,
-									height: media.height,
-									sizes: [100],
-									priority: true,
-									intrinsic: false
-								} as TooImageProps
-							};
-							return <Fragment key={i}>{<FullScreenHero {...blockData} />}</Fragment>;
-						}
-
+						return handleFullScreenHero(block, i);
+					case "textonlyhero":
+						return handleTextOnlyHero(block, i);
 					case "image_and_text":
-						if (block) {
-							const media = block.media_upload as Media;
-							if (typeof media !== "object" || media === null) {
-								console.warn(`media_upload is not an object for block:`, block);
-								return null; // or handle the undefined case appropriately
-							}
-							const blockData = {
-								layout: block.layout,
-								header: block.header,
-								content: block.content as RichTextContent,
-								media: {
-									image: {
-										src: media?.url,
-										alt: media?.alt
-									},
-									width: media?.width,
-									height: media?.height,
-									sizes: [100, 50],
-									priority: false,
-									intrinsic: false
-								} as TooImageProps
-							};
-							return <Fragment key={i}>{<ImageAndText {...blockData} />}</Fragment>;
-						}
-
+						return handleImageAndText(block, i);
 					case "carousel":
-						if (block) {
-							if (block.slider && block.slider.length > 0) {
-								const slides = block.slider.map((slide) => {
-									const media = slide.media_upload as Media;
-									return {
-										image: {
-											src: media?.url,
-											alt: media?.alt
-										},
-										width: media?.width,
-										height: media?.height,
-										sizes: [100, 50],
-										priority: false,
-										intrinsic: true
-									} as TooImageProps;
-								});
-								return <Fragment key={i}>{<Carousel slides={slides} />}</Fragment>;
-							}
-						}
-
+						return handleCarousel(block, i);
+					case "imagecta":
+						return handleImageCTA(block, i);
 					default:
 						return null;
 				}
