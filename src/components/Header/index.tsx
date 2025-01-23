@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+
+import { PageLinks, RsvpLink } from "@/lib/menus";
 
 import { Button } from "../UI/Button";
 import { ButtonGroup } from "../UI/ButtonGroup";
@@ -35,13 +37,17 @@ const Header = () => {
 					<div className="[ col-span-3 md:col-span-4 ]"></div>
 					<div className="[ hidden sm:flex justify-center items-center ][ sm:col-span-6 md:col-span-4 ]">
 						<ButtonGroup>
-							<Button text="Our Story" isLink={false} isLight={true} />
-							<Button text="Location" isLink={false} isLight={true} />
-							<Button text="Faq's" isLink={false} isLight={true} />
+							{PageLinks.map((link, i) => {
+								return (
+									<Fragment key={i}>
+										<Button {...link} />
+									</Fragment>
+								);
+							})}
 						</ButtonGroup>
 					</div>
 					<div className="[ flex justify-end items-center ][ col-span-3 md:col-span-4 ]">
-						<Button text="RSVP" isLink={false} isLight={true} />
+						<Button {...RsvpLink} />
 					</div>
 				</div>
 			</header>

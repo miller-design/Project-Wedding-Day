@@ -55,7 +55,7 @@ const TailwindConfig = {
 		screens: {
 			xs: "640px",
 			sm: "768px",
-			md: "960px",
+			md: "1024px",
 			lg: "1200px",
 			xl: "1600px",
 			xxl: "2000px"

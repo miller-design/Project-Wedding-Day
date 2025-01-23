@@ -15,18 +15,16 @@ const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick
 		isLight ? "backdrop-blur-md text-black" : "bg-black text-white hover:bg-black/4"
 	]);
 
+	const innerStyles = clsx([
+		"too-abs-xy w-full h-full",
+		"bg-[hsla(0,_0%,_80%,_.35)] ease-out duration-[400ms] transition-all",
+		"hover:bg-[hsla(0,_0%,_80%,_.8)]"
+	]);
+
 	if (!isLink) {
 		return (
 			<button disabled={isDisabled} onClick={onClick} className={styles}>
-				{isLight && (
-					<span
-						className={clsx([
-							"too-abs-xy w-full h-full",
-							"bg-[hsla(0,_0%,_80%,_.35)] ease-out duration-[400ms] transition-all",
-							"hover:bg-[hsla(0,_0%,_80%,_.5)]"
-						])}
-					></span>
-				)}
+				{isLight && <span className={innerStyles}></span>}
 				<span className="[ relative z-[1] pointer-events-none ]">{text}</span>
 			</button>
 		);
@@ -35,7 +33,8 @@ const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick
 
 		return (
 			<Link href={href} title={title} target={target} download={download} rel={rel} className={styles}>
-				{text}
+				{isLight && <span className={innerStyles}></span>}
+				<span className="[ relative z-[1] pointer-events-none ]">{text}</span>
 			</Link>
 		);
 	}

@@ -12,9 +12,9 @@ const FullScreenHero: React.FC<FullScreenHeroProps> = ({ media, label, title, me
 
 	const outputContent = () => {
 		return (
-			<div className="[ too-col justify-center items-center ][ text-white ]">
-				{label && <p className="[ too-primary too-fs-18-22 font-light ][ mb-10-20  ]">{label}</p>}
-				{title && <h1 className="[ too-secondary too-fs-52-90 font-normal ]">{title}</h1>}
+			<div className="[ too-col justify-center items-center text-center ][ text-white ]">
+				{label && <p className="[ too-primary too-fs-18-22 font-light ][ mb-10 mt-[0] ]">{label}</p>}
+				{title && <h1 className="[ too-secondary too-fs-52-90 font-normal text-balance ]">{title}</h1>}
 				{message && <p className="[ too-primary too-fs-18-22 font-light !tracking-widest ][ mt-10-20 ]">{message}</p>}
 			</div>
 		);
@@ -26,7 +26,7 @@ const FullScreenHero: React.FC<FullScreenHeroProps> = ({ media, label, title, me
 				{media && outputMedia()}
 				<div className="[ absolute inset-[0] bg-black opacity-20 pointer-events-none ]"></div>
 			</div>
-			<div className="[ relative ][ col-span-full row-start-1 row-end-2 ][ flex justify-center items-center ]">
+			<div className="[ relative ][ col-span-full sm:col-start-3 sm:col-end-11 md:col-start-4 md:col-end-10 xxl:col-start-5 xxl:col-end-9 row-start-1 row-end-2 ][ flex justify-center items-center ]">
 				<div>{(label || title || message) && outputContent()}</div>
 			</div>
 		</section>

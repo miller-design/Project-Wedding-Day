@@ -31,11 +31,6 @@ export const ImageAndText: Block = {
 			...UploadField
 		},
 		{
-			name: "header",
-			label: "Header",
-			type: "text"
-		},
-		{
 			name: "content",
 			label: "Content",
 			type: "richText",

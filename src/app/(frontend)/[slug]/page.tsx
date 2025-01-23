@@ -50,13 +50,17 @@ const Page = async ({ params: paramsPromise }: Args) => {
 	}
 
 	const { hero, content } = page;
-	const blocks = [...(hero?.blocks ?? []), ...(content?.blocks ?? [])];
+	const blocks = [...(hero?.blocks ?? []), ...(content?.blocks ?? [])] ?? [];
+
+	console.log(blocks);
 
 	return (
 		<article className="[ min-h-screen ][ mb-20-30 ]">
-			<div className="[ too-grid too-row-gap ]">
-				<TooBlockLoop blocks={blocks} />
-			</div>
+			{blocks.length > 0 && (
+				<div className="[ too-grid too-row-gap ]">
+					<TooBlockLoop blocks={blocks} />
+				</div>
+			)}
 		</article>
 	);
 };

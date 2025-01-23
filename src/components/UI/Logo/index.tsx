@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import Link from "next/link";
+
 import clsx from "clsx";
 
 import { LogoProps } from "./type";
@@ -39,7 +41,9 @@ const Logo: React.FC<LogoProps> = ({ isStatic, className = "" }) => {
 				className
 			])}
 		>
-			J&P
+			<Link href={"/"} className="[ ease-out duration-[400ms] transition-opacity hover:opacity-40 ]">
+				J&P
+			</Link>
 		</div>
 	);
 };

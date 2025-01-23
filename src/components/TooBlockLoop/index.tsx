@@ -12,6 +12,7 @@ const ImageAndText = dynamic(() => import("../ImageAndText").then((mod) => mod.I
 const Carousel = dynamic(() => import("../Carousel").then((mod) => mod.Carousel));
 const FullScreenHero = dynamic(() => import("../Hero").then((mod) => mod.FullScreenHero));
 const ImageCTA = dynamic(() => import("../ImageCTA").then((mod) => mod.ImageCTA));
+const TextOnlyHero = dynamic(() => import("../Hero").then((mod) => mod.TextOnlyHero));
 
 const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	const createMediaProps = (media: Media | null, sizes: number[], priority: boolean, intrinsic: boolean) => {
@@ -50,7 +51,16 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 
 	const handleTextOnlyHero: TooBlockHandler<TextOnlyHero> = (block, i) => {
 		console.log(block);
-		return <Fragment key={i}></Fragment>;
+		const blockData = {
+			label: block.label,
+			title: block.title,
+			message: block.message
+		};
+		return (
+			<Fragment key={i}>
+				<TextOnlyHero {...blockData} />
+			</Fragment>
+		);
 	};
 
 	const handleImageAndText: TooBlockHandler<ImageAndText> = (block, i) => {
@@ -58,7 +68,6 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 		if (!mediaProps) return null;
 		const blockData = {
 			layout: block.layout,
-			header: block.header,
 			content: block.content as RichTextContent,
 			media: mediaProps as TooImageProps
 		};
