@@ -20,8 +20,8 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 		// If the width and height are equal, it returns "flex-[0_0_50%]" for a square aspect ratio.
 		// If the width is greater than the height, it returns "flex-[0_0_70%]" for a landscape aspect ratio.
 		// Otherwise, it returns "flex-[0_0_35%]" for a portrait aspect ratio.
-		if (width === height) return "flex-[0_0_50%]";
-		return width > height ? "flex-[0_0_70%]" : "flex-[0_0_35%]";
+		if (width === height) return "flex-[0_0_80%] md:flex-[0_0_50%]";
+		return width > height ? "flex-[0_0_100%] md:flex-[0_0_70%]" : "flex-[0_0_50%] md:flex-[0_0_35%]";
 	};
 
 	return (
@@ -33,8 +33,8 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 							{slides.map((slide, index) => {
 								const aspectClass = getAspectRatioClass(slide.width, slide.height);
 								return (
-									<div key={index} className={clsx([slideStyles, aspectClass, "mr-20-30"])}>
-										<TooImage {...slide} className="h-full" />
+									<div key={index} className={clsx([slideStyles, aspectClass, "mr-10-20"])}>
+										<TooImage {...slide} className="h-full max-h-[calc(100vh-60px)] object-cover" />
 									</div>
 								);
 							})}

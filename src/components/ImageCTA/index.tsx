@@ -5,7 +5,9 @@ import { ImageCTAProps } from "./type";
 
 const ImageCTA: React.FC<ImageCTAProps> = ({ media, label, header, link }) => {
 	const outputMedia = () => {
-		return <TooImage {...media} className="[ w-full h-full aspect-video object-cover object-center" />;
+		return (
+			<TooImage {...media} className="[ w-full max-h-[calc(100vh-60px)] aspect-video object-cover object-center" />
+		);
 	};
 
 	return (
