@@ -112,3 +112,16 @@
 		font-size: var(--type-80-120);
 	}
 }
+
+.TooWysiwyg {
+	h2,
+	h3 {
+		@extend .too-secondary;
+		@extend .too-fs-30-38;
+		@apply text-balance;
+	}
+
+	p {
+		@extend .too-fs-14-16;
+	}
+}

@@ -9,7 +9,7 @@ const bodoniModa = Bodoni_Moda({
 });
 
 const poppins = Poppins({
-	weight: ["400", "500", "700"],
+	weight: ["300", "400", "500", "700"],
 	style: ["normal", "italic"],
 	subsets: ["latin"],
 	display: "swap",

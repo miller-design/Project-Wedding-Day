@@ -4,8 +4,8 @@ import { WysiwygProps } from "./type";
 
 const Wysiwyg: React.FC<WysiwygProps> = ({ content }) => {
 	return (
-		<div>
-			<RichText data={content} />
+		<div className="[ TooWysiwyg ]">
+			<RichText data={content} className="[ too-col gap-10-20 ]" />
 		</div>
 	);
 };
