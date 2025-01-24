@@ -24,7 +24,8 @@ const isPageType = (page: Partial<PageType> | null): page is PageType => {
  */
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise;
-	const page = await queryBySlug({ collection: "pages", slug: slug });
+	const effectiveSlug = slug ?? "home";
+	const page = await queryBySlug({ collection: "pages", slug: effectiveSlug });
 
 	if (isPageType(page)) {
 		const { meta } = page;
@@ -43,16 +44,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
  */
 const Page = async ({ params: paramsPromise }: Args) => {
 	const { slug } = await paramsPromise;
-	const page = await queryBySlug({ collection: "pages", slug: slug });
+	const effectiveSlug = slug ?? "home";
+
+	const page = await queryBySlug({ collection: "pages", slug: effectiveSlug });
 
 	if (!isPageType(page)) {
 		return <></>;
 	}
 
 	const { hero, content } = page;
-	const blocks = [...(hero?.blocks ?? []), ...(content?.blocks ?? [])] ?? [];
-
-	console.log(blocks);
+	const blocks = [...(hero?.blocks || []), ...(content?.blocks || [])];
 
 	return (
 		<article className="[ min-h-screen ][ mb-20-30 ]">

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
-import type { NextConfig } from 'next'
-import { withPayload } from '@payloadcms/next/withPayload'
+import type { NextConfig } from "next";
+
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
@@ -16,7 +17,16 @@ const nextConfig: NextConfig = {
 	},
 	experimental: {
 		reactCompiler: false
+	},
+	async redirects() {
+		return [
+			{
+				source: "/home",
+				destination: "/",
+				permanent: true // Use `true` for a 308 permanent redirect, or `false` for a 307 temporary redirect
+			}
+		];
 	}
 };
 
-export default withPayload(nextConfig)
+export default withPayload(nextConfig);

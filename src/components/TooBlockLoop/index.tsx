@@ -50,7 +50,6 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	};
 
 	const handleTextOnlyHero: TooBlockHandler<TextOnlyHero> = (block, i) => {
-		console.log(block);
 		const blockData = {
 			label: block.label,
 			title: block.title,

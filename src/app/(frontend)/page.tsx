@@ -1,7 +1,3 @@
-export default async function Home() {
-	return (
-		<>
-			<div className="[ too-grid ]"></div>
-		</>
-	);
-}
+import Page from "./[slug]/page";
+
+export default Page;
