@@ -16,7 +16,7 @@ const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick
 	]);
 
 	const innerStyles = clsx([
-		"too-abs-xy w-full h-full",
+		"too-abs-xy w-full h-full z-[5]",
 		"bg-[hsla(0,_0%,_80%,_.35)] ease-out duration-[400ms] transition-all",
 		"hover:bg-[hsla(0,_0%,_80%,_.8)]"
 	]);

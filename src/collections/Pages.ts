@@ -6,6 +6,7 @@ import { authenticated } from "./../access/authenticated";
 import { authenticatedOrPublished } from "./../access/authenticatedOrPublished";
 import { Carousel } from "./blocks/carousel";
 import { Content } from "./blocks/content";
+import { FormAndText } from "./blocks/formAndText";
 import { FullscreenHero } from "./blocks/hero/fullscreen";
 import { TextOnlyHero } from "./blocks/hero/TextOnly";
 import { ImageAndText } from "./blocks/imageAndText";
@@ -71,7 +72,7 @@ export const Pages: CollectionConfig = {
 							label: "Blocks",
 							name: "blocks",
 							type: "blocks",
-							blocks: [Title, Content, ImageCTA, Carousel, ImageAndText, Quotes]
+							blocks: [Title, Content, ImageCTA, Carousel, ImageAndText, Quotes, FormAndText]
 						}
 					]
 				},

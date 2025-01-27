@@ -3,6 +3,7 @@ import { JSX } from "react";
 import {
 	Carousel,
 	ContentBlock,
+	FormAndText,
 	FullscreenHero,
 	ImageAndText,
 	ImageCTA,
@@ -22,7 +23,8 @@ export type BlockTypes =
 	| ImageAndText
 	| Quotes
 	| Title
-	| ContentBlock;
+	| ContentBlock
+	| FormAndText;
 // Use the reusable type alias
 export type TooBlockLoopProps = {
 	blocks?: BlockTypes[] | null | undefined;

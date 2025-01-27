@@ -2,7 +2,15 @@ import { Fragment } from "react";
 
 import dynamic from "next/dynamic";
 
-import type { Carousel, FullscreenHero, ImageAndText, ImageCTA, Media, TextOnlyHero } from "@/payload-types";
+import type {
+	Carousel,
+	FormAndText,
+	FullscreenHero,
+	ImageAndText,
+	ImageCTA,
+	Media,
+	TextOnlyHero
+} from "@/payload-types";
 
 import { TooImageProps } from "../TooImage/type";
 import { RichTextContent } from "../Wysiwg/type";
@@ -13,6 +21,7 @@ const Carousel = dynamic(() => import("../Carousel").then((mod) => mod.Carousel)
 const FullScreenHero = dynamic(() => import("../Hero").then((mod) => mod.FullScreenHero));
 const ImageCTA = dynamic(() => import("../ImageCTA").then((mod) => mod.ImageCTA));
 const TextOnlyHero = dynamic(() => import("../Hero").then((mod) => mod.TextOnlyHero));
+const FormAndText = dynamic(() => import("../FormAndText").then((mod) => mod.FormAndText));
 
 const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	const createMediaProps = (media: Media | null, sizes: number[], priority: boolean, intrinsic: boolean) => {
@@ -110,6 +119,16 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 		);
 	};
 
+	const handleFormAndText: TooBlockHandler<FormAndText> = (block, i) => {
+		const blockContent = block.content ? block.content : undefined;
+
+		return (
+			<Fragment key={i}>
+				<FormAndText content={blockContent} />
+			</Fragment>
+		);
+	};
+
 	return (
 		<>
 			{blocks?.map((block, i) => {
@@ -125,6 +144,8 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 						return handleCarousel(block, i);
 					case "imagecta":
 						return handleImageCTA(block, i);
+					case "formAndText":
+						return handleFormAndText(block, i);
 					default:
 						return null;
 				}

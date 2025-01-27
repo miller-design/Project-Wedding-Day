@@ -1,0 +1,7 @@
+.too-input {
+	min-height: 40px;
+	@apply w-full p-10 rounded-sm;
+	@apply placeholder-white text-black;
+	@apply bg-white;
+	@apply border border-black/[0];
+}

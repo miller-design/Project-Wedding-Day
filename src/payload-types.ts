@@ -94,7 +94,7 @@ export interface Page {
     blocks?: (FullscreenHero | TextOnlyHero)[] | null;
   };
   content?: {
-    blocks?: (Title | ContentBlock | ImageCTA | Carousel | ImageAndText | Quotes)[] | null;
+    blocks?: (Title | ContentBlock | ImageCTA | Carousel | ImageAndText | Quotes | FormAndText)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -275,6 +275,30 @@ export interface Quotes {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormAndText".
+ */
+export interface FormAndText {
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formAndText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -380,6 +404,7 @@ export interface PagesSelect<T extends boolean = true> {
               carousel?: T | CarouselSelect<T>;
               image_and_text?: T | ImageAndTextSelect<T>;
               quotes?: T | QuotesSelect<T>;
+              formAndText?: T | FormAndTextSelect<T>;
             };
       };
   meta?:
@@ -493,6 +518,15 @@ export interface QuotesSelect<T extends boolean = true> {
         quote?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormAndText_select".
+ */
+export interface FormAndTextSelect<T extends boolean = true> {
+  content?: T;
   id?: T;
   blockName?: T;
 }
