@@ -5,7 +5,8 @@ export type formFieldsType = {
 	lastName: string;
 	email: Email;
 	phone: number;
-	attendance: "attending" | "not attending";
+	weddingAttendance: "attending" | "not attending";
+	ukReceptionAttendance: "attending" | "not attending";
 	dietryRequirements: string;
 	message: string;
 };

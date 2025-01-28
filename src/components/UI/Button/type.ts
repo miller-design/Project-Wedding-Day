@@ -10,5 +10,6 @@ export type ButtonProps = {
 	};
 	isDisabled?: boolean;
 	isLight?: boolean;
+	type?: "button" | "submit" | "reset";
 	onClick?: () => void;
 };

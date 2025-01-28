@@ -1,7 +1,63 @@
-.too-input {
-	min-height: 40px;
-	@apply w-full p-10 rounded-sm;
+@tailwind utilities;
+
+.too-input,
+.too-textarea {
+	@apply w-full py-10 px-[15px] rounded-md;
 	@apply placeholder-white text-black;
-	@apply bg-white;
-	@apply border border-black/[0];
+	@apply bg-transparent;
+	@apply border border-black/10;
+
+	box-shadow: unset !important;
+	outline: none;
+	transition: border-color 400ms ease;
+
+	&::placeholder {
+		color: transparent;
+	}
+}
+
+.too-input {
+	@apply h-[50px];
+}
+
+.too-input-group {
+	@apply min-h-[40px];
+	@apply w-full py-[15px] px-[15px] rounded-md;
+	@apply border border-black/10;
+
+	transition: border-color 400ms ease;
+
+	legend {
+		@apply absolute;
+		@apply -translate-y-[22px] -translate-x-[5px];
+		@apply bg-gray-100;
+		@apply px-[5px];
+
+		pointer-events: none;
+	}
+}
+
+.too-input + label,
+.too-textarea + label {
+	@apply absolute;
+	@apply translate-y-[17px] translate-x-[10px];
+	@apply px-[8px];
+	@apply text-black/50;
+
+	pointer-events: none;
+	transition:
+		color 400ms ease,
+		transform 400ms ease;
+}
+
+.too-input:not(:placeholder-shown) + label,
+.too-textarea:not(:placeholder-shown) + label {
+	@apply -translate-y-[8px] translate-x-[8px];
+	@apply text-black/30;
+	@apply bg-gray-100;
+}
+
+.too-input:focus-within + label,
+.too-textarea:focus-within + label {
+	@apply text-black/50;
 }

@@ -4,9 +4,9 @@ import { FormAndTextProps } from "./type";
 
 const FormAndText: React.FC<FormAndTextProps> = ({ content }) => {
 	const firstBlock =
-		"[ col-start-2 col-end-6 sm:col-start-1 sm:col-end-7 lg:col-start-2 lg:col-end-6 sm:px-30-40 lg:px-[0] ]";
+		"[ col-span-full md:col-start-1 md:col-end-7 lg:col-start-2 lg:col-end-7 xl:col-start-2 xl:col-end-6 px-30-40 md:pr-[0] lg:px-[0] ]";
 	const secondBlock =
-		"[ col-start-2 col-end-6 sm:col-start-7 sm:col-end-13 lg:col-start-8 lg:col-end-12 sm:px-30-40 lg:px-[0] ]";
+		"[ col-span-full md:col-start-7 md:col-end-13 lg:col-start-8 lg:col-end-12 pt-50-60 px-30-40 md:pt-[0] lg:px-[0] ]";
 
 	const getFormMarkup = () => {
 		return (
@@ -24,7 +24,7 @@ const FormAndText: React.FC<FormAndTextProps> = ({ content }) => {
 		<section className="[ TooImageAndText ][ col-span-full ][ too-col ]">
 			<div className={"[ too-grid-inner gap-y-10-20 items-center ]"}>
 				<div className="[ col-span-full bg-gray-100 rounded-xl overflow-hidden py-60-70 md:py-120-130 ]">
-					<div className="[ too-grid-inner ]">
+					<div className="[ too-grid-inner items-center ]">
 						{getFormMarkup()}
 						{content && getContentMarkup()}
 					</div>
