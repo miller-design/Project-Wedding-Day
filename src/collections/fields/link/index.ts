@@ -17,8 +17,8 @@ const urlField: Field = {
 		}
 	},
 	admin: {
-		condition: (data) => {
-			if (data.link_type === "external") {
+		condition: (data, siblingData) => {
+			if (siblingData?.link_type === "external") {
 				return true;
 			} else {
 				return false;
@@ -33,8 +33,8 @@ const pageField: Field = {
 	type: "relationship",
 	relationTo: "pages",
 	admin: {
-		condition: (data) => {
-			if (data.link_type === "internal") {
+		condition: (data, siblingData) => {
+			if (siblingData?.link_type === "internal") {
 				return true;
 			} else {
 				return false;
@@ -72,6 +72,11 @@ export const LinkField: Field = {
 		},
 		{
 			...pageField
+		},
+		{
+			name: "link_text",
+			label: "Link Text",
+			type: "text"
 		}
 	]
 };

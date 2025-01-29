@@ -210,6 +210,7 @@ export interface ImageCTA {
     link_type?: ('internal' | 'external') | null;
     url?: string | null;
     page?: (number | null) | Page;
+    link_text?: string | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -476,6 +477,7 @@ export interface ImageCTASelect<T extends boolean = true> {
         link_type?: T;
         url?: T;
         page?: T;
+        link_text?: T;
       };
   id?: T;
   blockName?: T;
