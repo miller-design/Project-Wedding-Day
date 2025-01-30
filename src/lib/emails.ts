@@ -11,7 +11,8 @@ interface FormData {
 
 export const rsvpMessage = (formData: FormData) => {
 	return `
-		Thank you for filling out the form. Here are the details you provided:
+		Hey ${formData.firstName},
+		Thank you for filling out our form. Here are the details you provided:
 
 		First Name: ${formData.firstName}
 		Last Name: ${formData.lastName}
