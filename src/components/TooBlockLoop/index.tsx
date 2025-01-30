@@ -110,7 +110,8 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 		const blockData = {
 			label: block.label,
 			header: block.header,
-			media: mediaProps as TooImageProps
+			media: mediaProps as TooImageProps,
+			link: block.link
 		};
 		return (
 			<Fragment key={i}>

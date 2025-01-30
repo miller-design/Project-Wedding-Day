@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import { ButtonProps } from "./type";
 
-const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick, isLight, type }) => {
+const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick, isLight, type, className }) => {
 	const styles = clsx([
 		"TooButton",
 		"px-10-20 py-10",
@@ -16,23 +16,30 @@ const Button: React.FC<ButtonProps> = ({ text, isLink, link, isDisabled, onClick
 	]);
 
 	const innerStyles = clsx([
-		"too-abs-xy w-full h-full z-[5]",
+		"too-abs-xy w-full h-full z-[1]",
 		"bg-[hsla(0,_0%,_80%,_.35)] ease-out duration-[400ms] transition-all",
 		"hover:bg-[hsla(0,_0%,_80%,_.8)]"
 	]);
 
 	if (!isLink) {
 		return (
-			<button disabled={isDisabled} onClick={onClick} className={styles} type={type}>
+			<button disabled={isDisabled} onClick={onClick} className={`${styles} ${className}`} type={type}>
 				{isLight && <span className={innerStyles}></span>}
-				<span className="[ relative z-[1] pointer-events-none ]">{text}</span>
+				<span className="[ relative z-[5] pointer-events-none ]">{text}</span>
 			</button>
 		);
 	} else if (isLink && link?.href) {
 		const { href, title, target, download, rel } = link;
 
 		return (
-			<Link href={href} title={title} target={target} download={download} rel={rel} className={styles}>
+			<Link
+				href={href}
+				title={title}
+				target={target}
+				download={download}
+				rel={rel}
+				className={`${styles}  ${className}`}
+			>
 				{isLight && <span className={innerStyles}></span>}
 				<span className="[ relative z-[1] pointer-events-none ]">{text}</span>
 			</Link>

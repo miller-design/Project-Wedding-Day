@@ -8,6 +8,7 @@ export type ImageCTAProps = {
 	header: string | null | undefined;
 	link?: {
 		link_type?: ("internal" | "external") | null;
+		link_text?: string | null | undefined;
 		url?: string | null;
 		page?: (number | null) | Page;
 	};
