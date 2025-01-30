@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "fakeimg.pl",
-				pathname: "/**"
+				hostname: "ufs.sh",
+				pathname: "/f/**"
 			}
 		]
 	},
