@@ -34,9 +34,25 @@ const RsvpForm = () => {
 		type: "submit" as const
 	};
 
-	const onSubmit: SubmitHandler<formFieldsType> = (data) => {
-		console.log(data);
-		setSuccessMessage("Form submitted successfully!");
+	const onSubmit: SubmitHandler<formFieldsType> = async (data) => {
+		try {
+			const response = await fetch("/api/formSubmissions", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(data)
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to submit form");
+			}
+
+			setSuccessMessage("Form submitted successfully!");
+		} catch (error) {
+			console.error("Error submitting form:", error);
+			setSuccessMessage("Failed to submit form. Please try again.");
+		}
 	};
 
 	useEffect(() => {

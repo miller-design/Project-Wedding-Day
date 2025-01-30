@@ -9,11 +9,10 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 
 import { defaultLexical } from "./collections/fields/defaultLexical";
+import { FormSubmissions } from "./collections/FormSubmissions";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
-// Collections
 import { Users } from "./collections/Users";
-// Global Collections
 import SiteOptions from "./globals/siteOptions";
 
 const filename = fileURLToPath(import.meta.url);
@@ -26,7 +25,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname)
 		}
 	},
-	collections: [Users, Pages, Media],
+	collections: [Users, Pages, Media, FormSubmissions],
 	globals: [SiteOptions],
 	editor: defaultLexical,
 	secret: process.env.PAYLOAD_SECRET || "",
@@ -39,7 +38,7 @@ export default buildConfig({
 		}
 	}),
 	email: resendAdapter({
-		defaultFromAddress: "no-reply@j&p-savethedate.com",
+		defaultFromAddress: "noreply@jp-wedding.day",
 		defaultFromName: "Jack & Paige",
 		apiKey: process.env.RESEND_API_KEY || ""
 	}),
