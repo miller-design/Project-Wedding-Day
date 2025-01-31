@@ -44,4 +44,23 @@ const queryBySlug = cache(async ({ collection, slug }: queryBySlugType) => {
 	return result.docs?.[0];
 });
 
-export { queryBySlug };
+/**
+ * ### queryBySlug
+ *
+ * Executes a query on a specified collection to find the first document that matches the provided slug.
+ * This function takes into account the draft mode and returns the first matching document or null if no match is found.
+ *
+ */
+
+const queryGlobal = cache(async () => {
+	const { isEnabled: draft } = await draftMode();
+	const payload = await getPayload({ config: configPromise });
+	const result = await payload.findGlobal({
+		slug: "site-options",
+		draft
+	});
+
+	return result;
+});
+
+export { queryBySlug, queryGlobal };
