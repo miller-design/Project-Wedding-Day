@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { CaptchaProvider } from "@/components/CaptchaProvider";
 import { TooBlockLoop } from "@/components/TooBlockLoop";
 
 import { queryBySlug } from "@/lib/Payload/queries";
@@ -59,7 +60,9 @@ const Page = async ({ params: paramsPromise }: Args) => {
 		<article className="[ min-h-screen ][ mb-20-30 ]">
 			{blocks.length > 0 && (
 				<div className="[ too-grid too-row-gap ]">
-					<TooBlockLoop blocks={blocks} />
+					<CaptchaProvider>
+						<TooBlockLoop blocks={blocks} />
+					</CaptchaProvider>
 				</div>
 			)}
 		</article>

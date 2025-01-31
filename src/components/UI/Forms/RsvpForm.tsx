@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import clsx from "clsx";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "../Button";
@@ -12,6 +13,7 @@ const RsvpForm = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors }
 	} = useForm<formFieldsType>({
 		mode: "onChange"
@@ -34,24 +36,50 @@ const RsvpForm = () => {
 		type: "submit" as const
 	};
 
+	const { executeRecaptcha } = useGoogleReCaptcha();
+
 	const onSubmit: SubmitHandler<formFieldsType> = async (data) => {
-		try {
-			const response = await fetch("/api/formSubmissions", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(data)
-			});
+		if (!executeRecaptcha) {
+			console.error("Error submitting form");
+		} else {
+			try {
+				// Get reCAPTCHA token
+				const token = await executeRecaptcha("rsvpForm");
+				// First, verify the reCAPTCHA token
+				const captchaResponse = await fetch("/api/captchaValidation", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ captchaToken: token })
+				});
 
-			if (!response.ok) {
-				throw new Error("Failed to submit form");
+				if (!captchaResponse.ok) {
+					throw new Error("reCAPTCHA verification failed");
+				}
+
+				// If captcha is valid, proceed with form submission
+				const response = await fetch("/api/formSubmissions", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						...data,
+						token // You might want to include the token in the form submission as well
+					})
+				});
+
+				if (!response.ok) {
+					throw new Error("Failed to submit form");
+				}
+
+				setSuccessMessage("Form submitted successfully!");
+				setTimeout(() => reset(), 2000);
+			} catch (error) {
+				console.error("Error submitting form:", error);
+				setSuccessMessage("Error submitting form. Please try again.");
 			}
-
-			setSuccessMessage("Form submitted successfully!");
-		} catch (error) {
-			console.error("Error submitting form:", error);
-			setSuccessMessage("Failed to submit form. Please try again.");
 		}
 	};
 
@@ -200,16 +228,16 @@ const RsvpForm = () => {
 					</div>
 				</div>
 				{/* Error Messages at the end of the form */}
-				{errorMessages && (
-					<p className="text-red-500 too-fs-12">
-						{errorMessages} {errorMessages.split(", ").length > 1 ? "are required fields" : "is a required field"}
-					</p>
-				)}
-				{successMessage && <p className="text-green-500 too-fs-12">{successMessage}</p>}
 				<div className={rowClasses}>
 					<Button {...submitProps} isDisabled={!!successMessage} />
 				</div>
 			</form>
+			{errorMessages && (
+				<p className="text-red-500 too-fs-10 absolute -bottom-[30px]">
+					{errorMessages} {errorMessages.split(", ").length > 1 ? "are required fields" : "is a required field"}
+				</p>
+			)}
+			{successMessage && <p className="text-green-500 too-fs-12 absolute -bottom-[30px]">{successMessage}</p>}
 		</div>
 	);
 };
