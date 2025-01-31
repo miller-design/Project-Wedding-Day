@@ -26,5 +26,4 @@ export type TooImageProps = {
 	/** Optional flag to indicate if the image should maintain intrinsic dimensions. */
 	intrinsic?: boolean;
 	className?: string;
-	blur?: boolean;
 };

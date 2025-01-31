@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 
 import Image from "next/image";
 
 import clsx from "clsx";
 
 import { createImageSrcSizes, getImageRatio, getRatioFallback } from "@/lib/utils";
+
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 import { TooImageProps } from "./type";
 
@@ -25,18 +27,16 @@ const TooImage: React.FC<TooImageProps> = ({
 	priority,
 	q = 95,
 	intrinsic = true,
-	className,
-	blur = false
+	className
 }) => {
+	const [imgLoaded, setImgLoaded] = useState(false);
 	const imgSizes = createImageSrcSizes(sizes);
 	const imgRatio = getImageRatio(width, height);
 	const ratioFallback = getRatioFallback(width, height);
-	const ref = useRef<HTMLImageElement | null>(null);
+	const [ref, isInView] = useIntersectionObserver(0.33);
 
 	const handleImageLoad = () => {
-		if (!ref.current) return;
-
-		ref.current.classList.add("lazyloaded");
+		setImgLoaded(true);
 	};
 
 	if (intrinsic) {
@@ -49,7 +49,6 @@ const TooImage: React.FC<TooImageProps> = ({
 				}}
 			>
 				<Image
-					ref={ref}
 					src={image?.src}
 					alt={image?.alt}
 					width={width}
@@ -57,14 +56,9 @@ const TooImage: React.FC<TooImageProps> = ({
 					sizes={imgSizes}
 					priority={priority}
 					quality={q}
+					className={clsx(["lazy", imgLoaded && isInView && "lazyloaded"])}
 					onLoad={handleImageLoad}
-					className={blur ? "" : "[ lazy ]"}
-					placeholder={blur ? "blur" : undefined}
-					blurDataURL={
-						blur
-							? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8UA8AAmUBcaVexNkAAAAASUVORK5CYII="
-							: undefined
-					}
+					ref={ref}
 				/>
 			</div>
 		);
@@ -77,14 +71,10 @@ const TooImage: React.FC<TooImageProps> = ({
 				height={height}
 				sizes={imgSizes}
 				priority={priority}
-				className={clsx(["[ TooImage ][ w-full ][ block ]", className])}
+				className={clsx(["[ TooImage ][ w-full ][ block ]", className, imgLoaded && isInView && "lazyloaded"])}
 				quality={q}
-				placeholder={blur ? "blur" : undefined}
-				blurDataURL={
-					blur
-						? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8UA8AAmUBcaVexNkAAAAASUVORK5CYII="
-						: undefined
-				}
+				onLoad={handleImageLoad}
+				ref={ref}
 			/>
 		);
 	}
