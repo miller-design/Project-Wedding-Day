@@ -25,7 +25,8 @@ const TooImage: React.FC<TooImageProps> = ({
 	priority,
 	q = 95,
 	intrinsic = true,
-	className
+	className,
+	blur = false
 }) => {
 	const imgSizes = createImageSrcSizes(sizes);
 	const imgRatio = getImageRatio(width, height);
@@ -57,7 +58,13 @@ const TooImage: React.FC<TooImageProps> = ({
 					priority={priority}
 					quality={q}
 					onLoad={handleImageLoad}
-					className="[ lazy ]"
+					className={blur ? "" : "[ lazy ]"}
+					placeholder={blur ? "blur" : undefined}
+					blurDataURL={
+						blur
+							? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8UA8AAmUBcaVexNkAAAAASUVORK5CYII="
+							: undefined
+					}
 				/>
 			</div>
 		);
@@ -72,6 +79,12 @@ const TooImage: React.FC<TooImageProps> = ({
 				priority={priority}
 				className={clsx(["[ TooImage ][ w-full ][ block ]", className])}
 				quality={q}
+				placeholder={blur ? "blur" : undefined}
+				blurDataURL={
+					blur
+						? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8UA8AAmUBcaVexNkAAAAASUVORK5CYII="
+						: undefined
+				}
 			/>
 		);
 	}

@@ -2,6 +2,8 @@ import { Fragment } from "react";
 
 import dynamic from "next/dynamic";
 
+import { getImageRatioInfo } from "@/lib/utils";
+
 import type {
 	Carousel,
 	FormAndText,
@@ -90,7 +92,19 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 		if (block.slider && block.slider.length > 0) {
 			const slides = block.slider
 				.map((slide) => {
-					const mediaProps = createMediaProps(slide.media_upload as Media, [100, 50], false, true);
+					const media = slide.media_upload as Media;
+					const { orientation } = getImageRatioInfo(media?.width as number, media?.height as number);
+					let imageSizes: number[] = [];
+
+					if (orientation === "landscape") {
+						imageSizes = [100, 80, 50];
+					} else if (orientation === "portrait") {
+						imageSizes = [50, 40, 30];
+					} else {
+						imageSizes = [60, 50, 40];
+					}
+
+					const mediaProps = createMediaProps(media, imageSizes, false, true);
 					return mediaProps as TooImageProps | null;
 				})
 				.filter((slide): slide is TooImageProps => slide !== null); // Type guard to filter out null values

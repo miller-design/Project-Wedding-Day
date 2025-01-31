@@ -1,5 +1,11 @@
 /* utility functions to be used across project */
 
+type ImageOrientation = "landscape" | "portrait" | "square";
+interface ImageRatioInfo {
+	ratio: string;
+	orientation: ImageOrientation;
+}
+
 /*
 	Function is used to convert an array of numbers into a
 	string that can be used on the next image sizes attribute.
@@ -54,6 +60,31 @@ export const getImageRatio = (width: number, height: number) => {
 	}
 	const ratio = width + `/` + height;
 	return ratio;
+};
+
+/*
+ * Function to determine image ratio and orientation type.
+ *
+ * @param {number} width - The width of the image.
+ * @param {number} height - The height of the image.
+ * @return {ImageRatioInfo} Object containing the ratio and orientation type.
+ */
+export const getImageRatioInfo = (width: number, height: number): ImageRatioInfo => {
+	const ratio = getImageRatio(width, height);
+
+	let orientation: ImageOrientation;
+	if (width === height) {
+		orientation = "square";
+	} else if (width > height) {
+		orientation = "landscape";
+	} else {
+		orientation = "portrait";
+	}
+
+	return {
+		ratio,
+		orientation
+	};
 };
 
 /*

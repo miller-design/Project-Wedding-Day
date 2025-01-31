@@ -5,7 +5,7 @@ const FullScreenHero: React.FC<FullScreenHeroProps> = ({ media, label, title, me
 	const outputMedia = () => {
 		return (
 			<div>
-				<TooImage {...media} className="[ h-[calc(100vh-117px)] w-full object-cover object-center" />
+				<TooImage {...media} className="[ h-[calc(100vh-117px)] w-full object-cover object-center" blur={true} />
 			</div>
 		);
 	};
