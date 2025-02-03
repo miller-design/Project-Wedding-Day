@@ -8,6 +8,7 @@ import "@/styles/app.scss";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { LoginForm } from "@/components/UI/Forms";
 
 import { bodoniModa, poppins } from "@/lib/fonts";
 import { queryGlobal } from "@/lib/Payload/queries";
@@ -50,15 +51,26 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const allowAccess = false;
+
 	return (
 		<html lang="en">
 			<Provider>
 				<body className={clsx(bodoniModa.variable, poppins.variable, "antialiased")}>
-					<Header />
-					<SmoothScroll>
-						<main className="[ too-col ][ min-h-screen ]">{children}</main>
-						<Footer />
-					</SmoothScroll>
+					{allowAccess ? (
+						<>
+							<Header />
+							<SmoothScroll>
+								<main className="[ too-col ][ min-h-screen ]">{children}</main>
+								<Footer />
+							</SmoothScroll>
+						</>
+					) : (
+						<>
+							<Header isLocked={true} />
+							<LoginForm />
+						</>
+					)}
 				</body>
 			</Provider>
 		</html>

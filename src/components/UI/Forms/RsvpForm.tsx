@@ -7,7 +7,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "../Button";
-import { formFieldsType } from "./type";
+import { rsvpFormFieldsType } from "./type";
 
 const RsvpForm = () => {
 	const {
@@ -15,7 +15,7 @@ const RsvpForm = () => {
 		handleSubmit,
 		reset,
 		formState: { errors }
-	} = useForm<formFieldsType>({
+	} = useForm<rsvpFormFieldsType>({
 		mode: "onChange"
 	});
 
@@ -26,7 +26,7 @@ const RsvpForm = () => {
 	const inputClass = "[ too-input ]";
 	const fontSizes = "[ too-fs-12 ]";
 	const fieldSet =
-		"[ too-fs-10 ][ absolute -translate-y-20-30 -translate-x-[8px] -mt-[6px] ][ p-[8px]  bg-gray-100 text-black/30 ]";
+		"[ too-fs-10 ][ absolute -translate-y-30-40 -translate-x-[8px] -mt-[6px] ][ p-[8px]  bg-gray-100 text-black/30 ]";
 	const fieldSetOffset = "[ too-fs-12 !leading-none ][ -mt-[10px] ]";
 
 	const submitProps = {
@@ -38,7 +38,7 @@ const RsvpForm = () => {
 
 	const { executeRecaptcha } = useGoogleReCaptcha();
 
-	const onSubmit: SubmitHandler<formFieldsType> = async (data) => {
+	const onSubmit: SubmitHandler<rsvpFormFieldsType> = async (data) => {
 		if (!executeRecaptcha) {
 			console.error("Error submitting form");
 		} else {
@@ -95,8 +95,8 @@ const RsvpForm = () => {
 		.join(", ");
 
 	return (
-		<div className="[ relative ][ p-10-20 border border-black/10 ]">
-			<p className={`${fieldSet} uppercase`}>RSVP Info</p>
+		<div className="[ relative ][ p-10-20 pt-20-30 border border-black/10 rounded-md ]">
+			<p className={`${fieldSet} uppercase `}>RSVP Info</p>
 			<form onSubmit={handleSubmit(onSubmit)} className="[ too-col too-gap gap-y-10-20 ]">
 				<div className={rowClasses}>
 					<div className={halfColClasses}>

@@ -1,6 +1,6 @@
 type Email = `${string}@${string}`;
 
-export type formFieldsType = {
+export type rsvpFormFieldsType = {
 	firstName: string;
 	lastName: string;
 	email: Email;
@@ -9,4 +9,8 @@ export type formFieldsType = {
 	ukReceptionAttendance: "attending" | "not attending";
 	dietryRequirements: string;
 	message: string;
+};
+
+export type loginFormFieldsType = {
+	password: string;
 };
