@@ -50,6 +50,23 @@ const SiteOptions: GlobalConfig = {
 							type: "date"
 						}
 					]
+				},
+				{
+					label: "Lock Screen", // required
+					description: "This tab contains all information for details when lock screen is active",
+					fields: [
+						{
+							name: "password",
+							label: "Password",
+							type: "text"
+						},
+						{
+							name: "lockscreen_bg",
+							label: "Lockscreen Background",
+							type: "upload",
+							relationTo: "media"
+						}
+					]
 				}
 			]
 		}

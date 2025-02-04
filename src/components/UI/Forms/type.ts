@@ -14,3 +14,18 @@ export type rsvpFormFieldsType = {
 export type loginFormFieldsType = {
 	password: string;
 };
+
+export type loginFormProps = {
+	password: string | null | undefined;
+	bg: {
+		image: {
+			src: string | null | undefined;
+			alt: string | null | undefined;
+		};
+		width: number | null | undefined;
+		height: number | null | undefined;
+		sizes: number[];
+		priority: boolean;
+		intrinsic: boolean;
+	};
+};

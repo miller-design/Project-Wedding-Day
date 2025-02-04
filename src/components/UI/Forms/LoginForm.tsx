@@ -2,23 +2,31 @@
 
 import { useEffect, useState } from "react";
 
+import { useRouter } from "next/navigation";
+
+import { setCookie } from "cookies-next";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button } from "../Button";
-import { loginFormFieldsType } from "./type";
+import { TooImage } from "@/components/TooImage";
+import { TooImageProps } from "@/components/TooImage/type";
 
-const LoginForm = () => {
+import { Button } from "../Button";
+import { loginFormFieldsType, loginFormProps } from "./type";
+
+const LoginForm: React.FC<loginFormProps> = ({ password, bg }) => {
 	const {
 		register,
 		handleSubmit,
-		reset,
-		formState: { errors }
+		formState: { errors },
+		setError
 	} = useForm<loginFormFieldsType>({
 		mode: "onChange"
 	});
 
+	const router = useRouter();
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+	const [formError, setFormError] = useState<string | null>(null);
 	const rowClasses = "[ too-row too-gap ][ w-full ]";
 	const fullColClasses = "[ relative ][ too-col ][ w-full ]";
 	const inputClass = "[ too-input ]";
@@ -35,9 +43,22 @@ const LoginForm = () => {
 
 	const { executeRecaptcha } = useGoogleReCaptcha();
 
+	const handleSuccessfulLogin = () => {
+		// After setting the cookie
+		// Set cookie for 10 days using cookies-next
+		setCookie("jp_allow_access", "true", {
+			maxAge: 60 * 60 * 24 * 10, // 10 days in seconds
+			path: "/",
+			sameSite: "strict"
+		});
+		// Refresh the page to trigger a new server-side render
+		router.refresh();
+	};
+
 	const onSubmit: SubmitHandler<loginFormFieldsType> = async (data) => {
+		setFormError(null); // Reset form error at the start of submission
 		if (!executeRecaptcha) {
-			console.error("Error submitting form");
+			setFormError("reCAPTCHA not available");
 		} else {
 			try {
 				// Get reCAPTCHA token
@@ -55,13 +76,19 @@ const LoginForm = () => {
 					throw new Error("reCAPTCHA verification failed");
 				}
 
-				console.log(data);
+				const formValue = data.password;
+				const sitePW = password;
 
-				setSuccessMessage("Form submitted successfully!");
-				setTimeout(() => reset(), 2000);
+				if (formValue !== sitePW) {
+					setError("password", { type: "manual", message: "Password does not match" });
+				} else {
+					handleSuccessfulLogin();
+					setSuccessMessage("Form submitted successfully!");
+				}
 			} catch (error) {
 				console.error("Error submitting form:", error);
-				setSuccessMessage("Error submitting form. Please try again.");
+				setFormError("Error submitting form. Please try again.");
+				setError("password", { type: "manual", message: "Error submitting form. Please try again." });
 			}
 		}
 	};
@@ -75,14 +102,22 @@ const LoginForm = () => {
 	// Collect all error messages into a single string
 	const errorMessages = Object.values(errors)
 		.map((error) => error?.message)
+		.filter(Boolean)
 		.join(", ");
+
+	const displayError = errorMessages || formError;
+	const isValidationError = errorMessages && !formError;
 
 	return (
 		<>
-			<div className="[ too-fixed-xy w-full h-full ][ backdrop-blur-2xl ]">
-				<span className="[ too-abs-xy w-full h-full z-[1] ][ bg-[hsla(0,_0%,_80%,_.35)] ]"></span>
+			<div className="[ too-fixed-xy w-full h-full ]">
+				<span className="[ too-abs-xy w-full h-full z-[1] ][ bg-[hsla(0,_0%,_80%,_.35)] backdrop-blur-lg ]"></span>
+				<TooImage
+					{...(bg as TooImageProps)}
+					className="[ too-abs-xy h-[calc(100vh-117px)] !w-[calc(100vw-117px)] object-cover object-center"
+				/>
 			</div>
-			<section className="[ too-fixed-xy p-40-50 rounded-xl overflow-hidden bg-white ][ w-[35vw] ]">
+			<section className="[ too-fixed-xy p-40-50 rounded-xl overflow-hidden bg-white shadow-xl ][ w-[35vw] ]">
 				<div className="[ relative ][ p-10-20 pt-20-30 border border-black/10 rounded-md ]">
 					<p className={`${fieldSet} uppercase rounded-md`}>Site Login</p>
 					<form onSubmit={handleSubmit(onSubmit)} className="[ too-col too-gap gap-y-10-20 ]">
@@ -97,14 +132,15 @@ const LoginForm = () => {
 								<label className={fontSizes}>Password</label>
 							</div>
 						</div>
-						{/* Error Messages at the end of the form */}
 						<div className={rowClasses}>
 							<Button {...submitProps} isDisabled={!!successMessage} />
 						</div>
 					</form>
-					{errorMessages && (
+					{displayError && (
 						<p className="text-red-500 too-fs-10 absolute -bottom-[30px]">
-							{errorMessages} {errorMessages.split(", ").length > 1 ? "are required fields" : "is a required field"}
+							{isValidationError
+								? `${errorMessages} ${errorMessages.split(", ").length > 1 ? "are required fields" : "is a required field"}`
+								: formError}
 						</p>
 					)}
 					{successMessage && <p className="text-green-500 too-fs-12 absolute -bottom-[30px]">{successMessage}</p>}
@@ -113,5 +149,4 @@ const LoginForm = () => {
 		</>
 	);
 };
-
 export { LoginForm };

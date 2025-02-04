@@ -646,6 +646,8 @@ export interface SiteOption {
   meta_title?: string | null;
   meta_description?: string | null;
   wedding_date?: string | null;
+  password?: string | null;
+  lockscreen_bg?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -657,6 +659,8 @@ export interface SiteOptionsSelect<T extends boolean = true> {
   meta_title?: T;
   meta_description?: T;
   wedding_date?: T;
+  password?: T;
+  lockscreen_bg?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
