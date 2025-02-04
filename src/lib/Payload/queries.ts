@@ -22,6 +22,46 @@ type queryBySlugType = {
  *
  */
 
+const queryGlobal = cache(async () => {
+	const { isEnabled: draft } = await draftMode();
+	const payload = await getPayload({ config: configPromise });
+	const result = await payload.findGlobal({
+		slug: "site-options",
+		draft
+	});
+
+	return result;
+});
+
+/**
+ * ### queryCollection
+ *
+ * Executes a query on a specified collection to fetch all documents.
+ * This function takes into account the draft mode and returns all documents from the collection.
+ */
+const queryCollection = cache(async ({ collection }: { collection: Collection }) => {
+	if (!collection) {
+		return [];
+	}
+
+	const payload = await getPayload({ config: configPromise });
+	const result = await payload.find({
+		collection: collection,
+		pagination: false
+	});
+	return result.docs;
+});
+
+export { queryBySlug, queryGlobal, queryCollection };
+
+/**
+ * ### queryBySlug
+ *
+ * Executes a query on a specified collection to find the first document that matches the provided slug.
+ * This function takes into account the draft mode and returns the first matching document or null if no match is found.
+ *
+ */
+
 const queryBySlug = cache(async ({ collection, slug }: queryBySlugType) => {
 	if (!slug) {
 		return null;
@@ -43,24 +83,3 @@ const queryBySlug = cache(async ({ collection, slug }: queryBySlugType) => {
 	});
 	return result.docs?.[0];
 });
-
-/**
- * ### queryBySlug
- *
- * Executes a query on a specified collection to find the first document that matches the provided slug.
- * This function takes into account the draft mode and returns the first matching document or null if no match is found.
- *
- */
-
-const queryGlobal = cache(async () => {
-	const { isEnabled: draft } = await draftMode();
-	const payload = await getPayload({ config: configPromise });
-	const result = await payload.findGlobal({
-		slug: "site-options",
-		draft
-	});
-
-	return result;
-});
-
-export { queryBySlug, queryGlobal };
