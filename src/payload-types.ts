@@ -96,7 +96,7 @@ export interface Page {
     blocks?: (FullscreenHero | TextOnlyHero)[] | null;
   };
   content?: {
-    blocks?: (Title | ContentBlock | ImageCTA | Carousel | ImageAndText | Quotes | FormAndText)[] | null;
+    blocks?: (Title | ContentBlock | ImageCTA | Carousel | ImageAndText | Quotes | FormAndText | FAQS)[] | null;
   };
   meta?: {
     title?: string | null;
@@ -302,6 +302,36 @@ export interface FormAndText {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQS".
+ */
+export interface FAQS {
+  questions?:
+    | {
+        question?: string | null;
+        answer?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form_submissions".
  */
 export interface FormSubmission {
@@ -429,6 +459,7 @@ export interface PagesSelect<T extends boolean = true> {
               image_and_text?: T | ImageAndTextSelect<T>;
               quotes?: T | QuotesSelect<T>;
               formAndText?: T | FormAndTextSelect<T>;
+              faqs?: T | FAQSSelect<T>;
             };
       };
   meta?:
@@ -552,6 +583,21 @@ export interface QuotesSelect<T extends boolean = true> {
  */
 export interface FormAndTextSelect<T extends boolean = true> {
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQS_select".
+ */
+export interface FAQSSelect<T extends boolean = true> {
+  questions?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

@@ -112,10 +112,12 @@ const LoginForm: React.FC<loginFormProps> = ({ password, bg }) => {
 		<>
 			<div className="[ too-fixed-xy w-full h-full ]">
 				<span className="[ too-abs-xy w-full h-full z-[1] ][ bg-[hsla(0,_0%,_80%,_.35)] backdrop-blur-lg ]"></span>
-				<TooImage
-					{...(bg as TooImageProps)}
-					className="[ too-abs-xy h-[calc(100vh-117px)] !w-[calc(100vw-117px)] object-cover object-center"
-				/>
+				{bg.image.src && (
+					<TooImage
+						{...(bg as TooImageProps)}
+						className="[ too-abs-xy h-[calc(100vh-117px)] !w-[calc(100vw-117px)] object-cover object-center"
+					/>
+				)}
 			</div>
 			<section className="[ too-fixed-xy p-40-50 rounded-xl overflow-hidden bg-white shadow-xl ][ w-[35vw] ]">
 				<div className="[ relative ][ p-10-20 pt-20-30 border border-black/10 rounded-md ]">

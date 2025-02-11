@@ -6,6 +6,7 @@ import { getImageRatioInfo } from "@/lib/utils";
 
 import type {
 	Carousel,
+	FAQS,
 	FormAndText,
 	FullscreenHero,
 	ImageAndText,
@@ -15,6 +16,8 @@ import type {
 } from "@/payload-types";
 
 import { TooImageProps } from "../TooImage/type";
+import { AccordionProps } from "../UI/Accordion/type";
+import { Wysiwyg } from "../Wysiwg";
 import { RichTextContent } from "../Wysiwg/type";
 import { TooBlockHandler, TooBlockLoopProps } from "./type";
 
@@ -24,6 +27,7 @@ const FullScreenHero = dynamic(() => import("../Hero").then((mod) => mod.FullScr
 const ImageCTA = dynamic(() => import("../ImageCTA").then((mod) => mod.ImageCTA));
 const TextOnlyHero = dynamic(() => import("../Hero").then((mod) => mod.TextOnlyHero));
 const FormAndText = dynamic(() => import("../FormAndText").then((mod) => mod.FormAndText));
+const Faqs = dynamic(() => import("../Faqs").then((mod) => mod.Faqs));
 
 const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	const createMediaProps = (media: Media | null, sizes: number[], priority: boolean, intrinsic: boolean) => {
@@ -144,6 +148,24 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 		);
 	};
 
+	const handleFaqList: TooBlockHandler<FAQS> = (block, i) => {
+		const listItems: AccordionProps[] = [];
+
+		block.questions?.map((item) => {
+			if (!item.question) return;
+			return listItems.push({
+				title: item.question,
+				children: <Wysiwyg content={item.answer as RichTextContent} />
+			});
+		});
+
+		return (
+			<Fragment key={i}>
+				<Faqs items={listItems} />
+			</Fragment>
+		);
+	};
+
 	return (
 		<>
 			{blocks?.map((block, i) => {
@@ -161,6 +183,8 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 						return handleImageCTA(block, i);
 					case "formAndText":
 						return handleFormAndText(block, i);
+					case "faqs":
+						return handleFaqList(block, i);
 					default:
 						return null;
 				}

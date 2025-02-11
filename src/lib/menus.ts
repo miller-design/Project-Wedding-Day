@@ -26,7 +26,7 @@ const PageLinks: ButtonProps[] = [
 		isLink: true,
 		isLight: true,
 		link: {
-			href: "#",
+			href: "/faqs",
 			title: "faqs page",
 			target: "_self"
 		}
