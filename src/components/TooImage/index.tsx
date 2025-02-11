@@ -66,7 +66,7 @@ const TooImage: React.FC<TooImageProps> = ({
 		return (
 			<Image
 				src={image?.src}
-				alt={image?.alt}
+				alt={image?.alt ?? ""}
 				width={width}
 				height={height}
 				sizes={imgSizes}
