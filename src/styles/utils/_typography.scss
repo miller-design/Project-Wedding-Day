@@ -124,4 +124,13 @@
 	p {
 		@extend .too-fs-14-16;
 	}
+
+	a {
+		opacity: 1;
+		transition: opacity 400ms ease;
+
+		@include hover {
+			opacity: 0.4;
+		}
+	}
 }
