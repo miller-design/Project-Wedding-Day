@@ -83,6 +83,14 @@ export const FormSubmissions: CollectionConfig = {
 			}
 		},
 		{
+			name: "ownArrangements",
+			label: "Hotel Arrangements",
+			type: "text",
+			admin: {
+				readOnly: true
+			}
+		},
+		{
 			name: "message",
 			label: "Notes",
 			type: "textarea",

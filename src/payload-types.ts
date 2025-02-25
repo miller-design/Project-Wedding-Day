@@ -343,6 +343,7 @@ export interface FormSubmission {
   weddingAttendance?: string | null;
   ukReceptionAttendance?: string | null;
   dietryRequirements?: string | null;
+  ownArrangements?: string | null;
   message?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -647,6 +648,7 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   weddingAttendance?: T;
   ukReceptionAttendance?: T;
   dietryRequirements?: T;
+  ownArrangements?: T;
   message?: T;
   updatedAt?: T;
   createdAt?: T;

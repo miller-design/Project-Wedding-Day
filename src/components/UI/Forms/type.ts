@@ -7,6 +7,7 @@ export type rsvpFormFieldsType = {
 	phone: number;
 	weddingAttendance: "attending" | "not attending";
 	ukReceptionAttendance: "attending" | "not attending";
+	ownArrangements: "wedding hotel" | "own arrangements";
 	dietryRequirements: string;
 	message: string;
 };

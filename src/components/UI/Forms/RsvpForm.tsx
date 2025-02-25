@@ -212,6 +212,42 @@ const RsvpForm = () => {
 				</div>
 				<div className={rowClasses}>
 					<div className={fullColClasses}>
+						<fieldset
+							className={clsx([
+								"[ relative ][ too-col gap-y-[5px] ][ too-input-group ]",
+								errors.ownArrangements ? "!border-red-500" : ""
+							])}
+						>
+							<legend className={clsx([fieldSet, fieldSetOffset, fontSizes])}>Accommodation</legend>
+							<div className="[ too-row gap-[5px] ]">
+								<input
+									type="radio"
+									id="wedding-hotel-yes"
+									value="wedding hotel"
+									className="[ accent-current cursor-pointer ]"
+									{...register("ownArrangements", { required: "Accommodation choice" })}
+								/>
+								<label htmlFor="wedding-hotel-yes" className={`[ cursor-pointer ] ${fontSizes}`}>
+									Wedding Hotel
+								</label>
+							</div>
+							<div className="[ too-row gap-[5px] ]">
+								<input
+									type="radio"
+									id="wedding-hotel-no"
+									value="own arrangements"
+									className="[ accent-current cursor-pointer ]"
+									{...register("ownArrangements")}
+								/>
+								<label htmlFor="wedding-hotel-no" className={`[ cursor-pointer ] ${fontSizes}`}>
+									Own Arrangements
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div className={rowClasses}>
+					<div className={fullColClasses}>
 						<input
 							type="text"
 							placeholder="Dietry Requirements"
