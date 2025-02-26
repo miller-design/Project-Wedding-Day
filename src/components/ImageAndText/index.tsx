@@ -9,7 +9,7 @@ const ImageAndText: React.FC<ImageAndTextProps> = ({ media, layout, content }) =
 		return (
 			<TooImage
 				{...media}
-				className="[ w-full h-full !aspect-square [&_img]:aspect-square [&_img]:object-cover [&_img]:object-center"
+				className="[ w-full h-full !aspect-square [&_img]:aspect-square [&_img]:h-full [&_img]:object-cover [&_img]:object-center"
 			/>
 		);
 	};

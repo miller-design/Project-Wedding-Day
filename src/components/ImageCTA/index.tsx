@@ -24,7 +24,7 @@ const ImageCTA: React.FC<ImageCTAProps> = ({ media, label, header, link }) => {
 		return (
 			<TooImage
 				{...media}
-				className="[ w-full !aspect-square lg:!aspect-video [&_img]:max-h-[calc(100vh-60px)] [&_img]:aspect-square [&_img]lg:aspect-video [&_img]:object-cover [&_img]:object-center"
+				className="[ w-full !aspect-square lg:!aspect-video max-h-[calc(100vh-60px)] [&_img]:h-full [&_img]:aspect-square [&_img]lg:aspect-video [&_img]:object-cover [&_img]:object-center"
 			/>
 		);
 	};
