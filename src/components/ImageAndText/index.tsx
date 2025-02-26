@@ -6,7 +6,12 @@ import { ImageAndTextProps } from "./type";
 
 const ImageAndText: React.FC<ImageAndTextProps> = ({ media, layout, content }) => {
 	const outputMedia = () => {
-		return <TooImage {...media} className="[ w-full h-full aspect-square object-cover object-center" />;
+		return (
+			<TooImage
+				{...media}
+				className="[ w-full h-full !aspect-square [&_img]:aspect-square [&_img]:object-cover [&_img]:object-center"
+			/>
+		);
 	};
 
 	const getClassNames = (isFirst: boolean, layout: "layoutA" | "layoutB") => {

@@ -78,7 +78,7 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	};
 
 	const handleImageAndText: TooBlockHandler<ImageAndText> = (block, i) => {
-		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, false);
+		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, true);
 		if (!mediaProps) return null;
 		const blockData = {
 			layout: block.layout,
@@ -123,7 +123,7 @@ const TooBlockLoop: React.FC<TooBlockLoopProps> = ({ blocks }) => {
 	};
 
 	const handleImageCTA: TooBlockHandler<ImageCTA> = (block, i) => {
-		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, false);
+		const mediaProps = createMediaProps(block.media_upload as Media, [100, 50], false, true);
 		if (!mediaProps) return null;
 		const blockData = {
 			label: block.label,

@@ -2,6 +2,8 @@
 
 import { Fragment, useEffect, useState } from "react";
 
+import { usePathname } from "next/navigation";
+
 import clsx from "clsx";
 
 import { PageLinks, RsvpLink } from "@/lib/menus";
@@ -15,6 +17,7 @@ const Header: React.FC<HeaderProps> = ({ isLocked }) => {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [mobileActive, setMobileActive] = useState(false);
 	const [isMobile, setIsMobile] = useState(true);
+	const pathname = usePathname();
 
 	const toggleMobileActive = () => {
 		setMobileActive((prev) => !prev);
@@ -62,6 +65,10 @@ const Header: React.FC<HeaderProps> = ({ isLocked }) => {
 			window.removeEventListener("resize", checkMobile);
 		};
 	}, []);
+
+	useEffect(() => {
+		setMobileActive(false);
+	}, [pathname]);
 
 	return (
 		<>
