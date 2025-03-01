@@ -115,11 +115,11 @@ const LoginForm: React.FC<loginFormProps> = ({ password, bg }) => {
 				{bg.image.src && (
 					<TooImage
 						{...(bg as TooImageProps)}
-						className="[ too-abs-xy h-[calc(100vh-117px)] !w-[calc(100vw-117px)] object-cover object-center"
+						className="[ too-abs-xy h-[calc(100vh-60px)] md:h-[calc(100vh-117px)] !w-[calc(100vw-60px)] md:!w-[calc(100vw-117px)] object-cover object-center"
 					/>
 				)}
 			</div>
-			<section className="[ too-fixed-xy p-40-50 rounded-xl overflow-hidden bg-white shadow-xl ][ w-[35vw] ]">
+			<section className="[ too-fixed-xy p-40-50 rounded-xl overflow-hidden bg-white shadow-xl ][ w-[80vw] sm:w-[65vw] md:w-[45vw] lg:w-[35vw] ]">
 				<div className="[ relative ][ p-10-20 pt-20-30 border border-black/10 rounded-md ]">
 					<p className={`${fieldSet} uppercase rounded-md`}>Site Login</p>
 					<form onSubmit={handleSubmit(onSubmit)} className="[ too-col too-gap gap-y-10-20 ]">
