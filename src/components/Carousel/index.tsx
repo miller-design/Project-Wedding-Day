@@ -21,7 +21,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
 		// If the width is greater than the height, it returns "flex-[0_0_70%]" for a landscape aspect ratio.
 		// Otherwise, it returns "flex-[0_0_35%]" for a portrait aspect ratio.
 		if (width === height) return "flex-[0_0_80%] md:flex-[0_0_50%]";
-		return width > height ? "flex-[0_0_100%] md:flex-[0_0_70%]" : "flex-[0_0_50%] md:flex-[0_0_35%]";
+		return width > height ? "flex-[0_0_100%] md:flex-[0_0_70%]" : "flex-[0_0_70%] md:flex-[0_0_35%]";
 	};
 
 	return (
