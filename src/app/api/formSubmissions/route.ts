@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
+import { Resend } from "resend";
 
 import { rsvpMessage } from "@/lib/emails";
 
@@ -29,12 +30,24 @@ export async function POST(request: Request) {
 
 		// Send an automated confirmation email to the form submitter
 		// TODO: Customize email template with actual email template (react email)
-		await payload.sendEmail({
+		const resend = new Resend(process.env.RESEND_API_KEY);
+		const { error } = await resend.emails.send({
 			to: formData.email,
 			from: "Jack & Paige <noreply@jp-wedding.day>",
 			subject: "RSVP Confirmation",
-			text: rsvpMessage(formData)
+			react: rsvpMessage(formData)
 		});
+
+		if (error) {
+			return NextResponse.json(
+				{
+					success: false,
+					message: "Failed to send confirmation email",
+					error
+				},
+				{ status: 400 }
+			);
+		}
 
 		// Return success response with the created submission
 		return NextResponse.json(
