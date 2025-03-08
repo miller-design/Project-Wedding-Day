@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
 		title: globals?.meta_title,
-		description: globals?.meta_title,
+		description: globals?.meta_description,
 		icons: {
 			icon: ["/favicon/favicon.ico", "/favicon/apple-icon.png", "/favicon/icon.png", "/favicon/icon.svg"]
 		},
