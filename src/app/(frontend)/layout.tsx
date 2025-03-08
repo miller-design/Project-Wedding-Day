@@ -27,6 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
 			icon: ["/favicon/favicon.ico", "/favicon/apple-icon.png", "/favicon/icon.png", "/favicon/icon.svg"]
 		},
 		openGraph: {
+			type: 'website',
+			url: process.env.NEXT_PUBLIC_SITE_URL,
 			title: "Jack & Paige's Wedding",
 			description:
 				"Join us for our special day! Find all the details about our wedding celebration, including venue information, schedule, and accommodation details.",
