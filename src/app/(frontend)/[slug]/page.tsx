@@ -5,19 +5,8 @@ import { TooBlockLoop } from "@/components/TooBlockLoop";
 
 import { queryBySlug } from "@/lib/Payload/queries";
 
-import { Page as PageType } from "@/payload-types";
-
 import { Args } from "./type";
-
-/**
- * Type guard function to determine if a given object is of type PageType.
- * This function checks that the object is not null and has a 'title' property of type string.
- * The presence of the 'title' property is used as an indicator that the object is a PageType,
- * as 'title' is a required property for PageType objects.
- */
-const isPageType = (page: Partial<PageType> | null): page is PageType => {
-	return page !== null && typeof page?.title === "string";
-};
+import { isPageType } from "@/lib/utils";
 
 /**
  * This function generates metadata for a page based on its slug. It queries the Payload CMS for a page with the given slug,

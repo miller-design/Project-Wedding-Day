@@ -1,5 +1,6 @@
-/* utility functions to be used across project */
+import { Page as PageType } from "@/payload-types";
 
+/* utility functions to be used across project */
 type ImageOrientation = "landscape" | "portrait" | "square";
 interface ImageRatioInfo {
 	ratio: string;
@@ -123,4 +124,8 @@ export const getSizeValuesFromString = (url: string) => {
 		width: widthValue,
 		height: heightValue
 	};
+};
+
+export const isPageType = (page: Partial<PageType> | null): page is PageType => {
+	return page !== null && typeof page?.title === "string";
 };
