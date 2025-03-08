@@ -4,8 +4,8 @@ export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: {
 			userAgent: "*",
-			disallow: "/"
-			// allow: '/' // when production is ready uncomment this and comment the above
+			// disallow: "/"
+			allow: '/'
 		},
 		sitemap: "https://jp-wedding.day/sitemap.xml"
 	};
