@@ -15,6 +15,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 
 import { bodoniModa, poppins } from "@/lib/fonts";
 import { queryGlobal } from "@/lib/Payload/queries";
+import { CountdownTimer } from "@/components/UI/Countdown";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const globals = await queryGlobal();
@@ -56,6 +57,7 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const globals = await queryGlobal();
 	const allowAccess = await hasCookie("jp_allow_access", { cookies });
 
 	return (
@@ -66,6 +68,7 @@ export default async function RootLayout({
 					<SmoothScroll>
 						<main className="[ too-col ][ min-h-screen ]">{children}</main>
 						<Footer />
+						<CountdownTimer date={globals.wedding_date}/>
 					</SmoothScroll>
 				</body>
 			</Provider>
