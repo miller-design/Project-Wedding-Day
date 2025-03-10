@@ -7,7 +7,8 @@ import { Cross } from "@/Icons/cross"
 import clsx from "clsx"
 
 const CountdownTimer = ({ date }: Props) => {
-	const [timeLeft, setTimeLeft] = useState("00:00:00:00")
+	const baseTime = {days: '00', hours: '00', minutes: "00", seconds: '00'}
+	const [timeLeft, setTimeLeft] = useState({days: '00', hours: '00', minutes: "00", seconds: '00'})
 	const [isActive, setIsActive] = useState(false)
 
 	const toggleState = () => {
@@ -16,13 +17,13 @@ const CountdownTimer = ({ date }: Props) => {
 
 	useEffect(() => {
 		const calculateTimeLeft = () => {
-			if (!date) return "00:00:00:00"
+			if (!date) return baseTime
 
 			const now = new Date().getTime()
 			const targetDate = new Date(date).getTime()
 			const difference = targetDate - now
 
-			if (difference <= 0) return "00:00:00:00"
+			if (difference <= 0) return baseTime
 
 			// Calculate days, hours, minutes, seconds
 			const days = Math.floor(difference / (1000 * 60 * 60 * 24))
@@ -36,7 +37,7 @@ const CountdownTimer = ({ date }: Props) => {
 			const formattedMinutes = minutes.toString().padStart(2, '0')
 			const formattedSeconds = seconds.toString().padStart(2, '0')
 
-			return `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`
+			return {days: formattedDays, hours: formattedHours, minutes: formattedMinutes, seconds: formattedSeconds}
 		}
 
 		// Update immediately
@@ -49,16 +50,36 @@ const CountdownTimer = ({ date }: Props) => {
 
 		// Cleanup interval on unmount
 		return () => clearInterval(timer)
-	}, [date])
+	}, [])
 
 
 
 	return (
 		<>
 		<aside
-			className={clsx(["[ fixed right-10 bottom-[60px] z-50 ][ flex items-center justify-center gap-10-20 ] [ rounded-lg bg-white text-black ][ p-20-30 shadow-lg ][ transition-all duration-300 origin-bottom-right ]", isActive ? "opacity-100 scale-[1]" : "opacity-[0] scale-[0.95]" ])}
+			className={clsx(["[ fixed right-10 bottom-[60px] z-50 ][ flex items-center justify-center gap-10-20 ] [ rounded-lg bg-white text-black ][ p-[30px] shadow-lg ][ transition-all duration-300 origin-bottom-right ]", isActive ? "opacity-100 scale-[1]" : "opacity-[0] scale-[0.95]" ])}
 		>
-			<p className="[ text-42-50 too-mono leading-[1] slashed-zero tabular-nums ]">{timeLeft}</p>
+			<p className="[ relative -top-[7px] ][ flex items-center ][ text-42-50 too-mono leading-[1] slashed-zero tabular-nums ]">
+				<span className="[ relative ]">
+					<span className="[ absolute -bottom-[15px] left-1/2 -translate-x-1/2 ][ text-12 ]">Days</span>
+					{timeLeft.days}
+				</span>
+				<span className="[ too-primary leading-[1] ][ px-10 ][ relative -top-[4px] ]">:</span>
+				<span className="[ relative ]">
+					<span className="[ absolute -bottom-[15px] left-1/2 -translate-x-1/2 ][ text-12 ]">Hours</span>
+					{timeLeft.hours}
+				</span>
+				<span className="[ too-primary ][ px-10 ][ relative -top-[4px] ]">:</span>
+				<span className="[ relative ]">
+					<span className="[ absolute -bottom-[15px] left-1/2 -translate-x-1/2 ][ text-12 ]">Minutes</span>
+					{timeLeft.minutes}
+				</span>
+				<span className="[ too-primary ][ px-10 ][ relative -top-[4px] ]">:</span>
+				<span className="[ relative ]">
+					<span className="[ absolute -bottom-[15px] left-1/2 -translate-x-1/2 ][ text-12 ]">Seconds</span>
+					{timeLeft.seconds}
+				</span>
+			</p>
 		</aside>
 		<button className="[ rounded-md ][ fixed right-10 bottom-[12px] z-60 w-[40px] h-[40px] ][ bg-white text-black ][ shadow-md ]" onClick={toggleState}>
 			<span className="sr-only">Close</span>
