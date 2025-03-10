@@ -43,6 +43,10 @@
 		@include bodini;
 	}
 
+	.too-mono {
+		font-family: monospace;
+	}
+
 	/*
 	 * The .too-fs- classes define a range of typography sizes, each with a corresponding font size.
 	 * These classes provide a flexible way to apply consistent typography styles throughout the application.
