@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import clsx from "clsx";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+// import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "../Button";
@@ -14,12 +14,13 @@ const RsvpForm = () => {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors }
+		formState: { errors, isSubmitting }
 	} = useForm<rsvpFormFieldsType>({
 		mode: "onChange"
 	});
 
 	const [successMessage, setSuccessMessage] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const rowClasses = "[ too-row too-gap ][ w-full ]";
 	const fullColClasses = "[ relative ][ too-col ][ w-full ]";
 	const halfColClasses = "[ relative ][ too-col ][ w-1/2 ]";
@@ -36,50 +37,35 @@ const RsvpForm = () => {
 		type: "submit" as const
 	};
 
-	const { executeRecaptcha } = useGoogleReCaptcha();
+	// const { executeRecaptcha } = useGoogleReCaptcha();
 
 	const onSubmit: SubmitHandler<rsvpFormFieldsType> = async (data) => {
-		if (!executeRecaptcha) {
-			console.error("Error submitting form");
-		} else {
-			try {
-				// Get reCAPTCHA token
-				const token = await executeRecaptcha("rsvpForm");
-				// First, verify the reCAPTCHA token
-				const captchaResponse = await fetch("/api/captchaValidation", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({ captchaToken: token })
-				});
+		setIsLoading(true);
 
-				if (!captchaResponse.ok) {
-					throw new Error("reCAPTCHA verification failed");
-				}
+		try {
+			// If captcha is valid, proceed with form submission
+			const response = await fetch("/api/formSubmissions", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					...data,
+					// token // You might want to include the token in the form submission as well
+				})
+			});
 
-				// If captcha is valid, proceed with form submission
-				const response = await fetch("/api/formSubmissions", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						...data,
-						token // You might want to include the token in the form submission as well
-					})
-				});
-
-				if (!response.ok) {
-					throw new Error("Failed to submit form");
-				}
-
-				setSuccessMessage("Form submitted successfully!");
-				setTimeout(() => reset(), 2000);
-			} catch (error) {
-				console.error("Error submitting form:", error);
-				setSuccessMessage("Error submitting form. Please try again.");
+			if (!response.ok) {
+				throw new Error("Failed to submit form");
 			}
+
+			setSuccessMessage("Form submitted successfully!");
+			setTimeout(() => reset(), 2000);
+		} catch (error) {
+			console.error("Error submitting form:", error);
+			setSuccessMessage("Error submitting form. Please try again.");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -97,6 +83,21 @@ const RsvpForm = () => {
 	return (
 		<div className="[ relative ][ p-10-20 pt-20-30 border border-black/10 rounded-md ]">
 			<p className={`${fieldSet} uppercase `}>RSVP Info</p>
+
+			{/* Add overlay for loading state */}
+			{isLoading && (
+				<div className="[ absolute top-[0] left-[0] z-10 ][ w-full h-full ][ bg-gray-200/60 backdrop-blur-[3px] ][ flex items-center justify-center ][ rounded-md ]">
+					<div className="[ flex flex-col items-center ]">
+						<div className="[ inline-flex gap-[5px] ][ mb-10  ]">
+							<div className="[ w-[8px] h-[8px] ][ bg-black/70 ][ rounded-full ][ animate-pulse ]" style={{ animationDelay: "0ms" }}></div>
+							<div className="[ w-[8px] h-[8px] ][ bg-black/70 rounded-full ][ animate-pulse ]" style={{ animationDelay: "300ms" }}></div>
+							<div className="[ w-[8px] h-[8px] ][ bg-black/70 rounded-full ][ animate-pulse ]" style={{ animationDelay: "600ms" }}></div>
+						</div>
+						<span className="[ text-sm ][ text-black/80 ]">Form submitting</span>
+					</div>
+				</div>
+			)}
+
 			<form onSubmit={handleSubmit(onSubmit)} className="[ too-col too-gap gap-y-10-20 ]">
 				<div className={rowClasses}>
 					<div className={halfColClasses}>
@@ -263,9 +264,12 @@ const RsvpForm = () => {
 						<label className={fontSizes}>Notes</label>
 					</div>
 				</div>
-				{/* Error Messages at the end of the form */}
-				<div className={rowClasses}>
-					<Button {...submitProps} isDisabled={!!successMessage} />
+				<div className={`${rowClasses} items-center`}>
+					<Button
+						{...submitProps}
+						isDisabled={!!successMessage || isLoading}
+						text={isLoading ? "Submitting" : "Submit"}
+					/>
 				</div>
 			</form>
 			{errorMessages && (
