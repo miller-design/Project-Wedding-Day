@@ -14,7 +14,7 @@ const RsvpForm = () => {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isSubmitting }
+		formState: { errors }
 	} = useForm<rsvpFormFieldsType>({
 		mode: "onChange"
 	});
