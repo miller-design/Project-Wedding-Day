@@ -67,7 +67,7 @@ export default async function RootLayout({
 					<Header isLocked={!allowAccess} />
 					<SmoothScroll>
 						<main className="[ too-col ][ min-h-screen ]">{children}</main>
-						<Footer />
+						{allowAccess && <Footer />}
 						<CountdownTimer date={globals.wedding_date}/>
 					</SmoothScroll>
 				</body>
