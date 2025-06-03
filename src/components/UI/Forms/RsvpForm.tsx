@@ -226,7 +226,7 @@ const RsvpForm = () => {
 									id="wedding-hotel-yes"
 									value="wedding hotel"
 									className="[ accent-current cursor-pointer ]"
-									{...register("ownArrangements", { required: "Accommodation choice" })}
+									{...register("ownArrangements")}
 								/>
 								<label htmlFor="wedding-hotel-yes" className={`[ cursor-pointer ] ${fontSizes}`}>
 									Wedding Hotel
