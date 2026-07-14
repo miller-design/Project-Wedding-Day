@@ -18,6 +18,30 @@ import SiteOptions from "./globals/siteOptions";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+/**
+ * Enables Postgres row-level security on every table in a Drizzle schema.
+ * Payload uses the postgres role (BYPASSRLS), so admin/API capabilities stay unchanged.
+ * This stops Supabase Data API (anon/authenticated) open access and survives Drizzle push.
+ *
+ * @param schema - Drizzle schema object from postgresAdapter `afterSchemaInit`
+ * @returns The same schema after RLS flags are set on each table
+ * @example
+ * afterSchemaInit: [
+ *   ({ schema }) => enableRlsOnSchemaTables(schema)
+ * ]
+ */
+function enableRlsOnSchemaTables<
+	TSchema extends {
+		tables: Record<string, { enableRLS: () => unknown }>
+	}
+>(schema: TSchema): TSchema {
+	for (const table of Object.values(schema.tables)) {
+		table.enableRLS()
+	}
+
+	return schema
+}
+
 export default buildConfig({
 	admin: {
 		user: Users.slug,
@@ -35,7 +59,10 @@ export default buildConfig({
 	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || ""
-		}
+		},
+		afterSchemaInit: [
+			({ schema }) => enableRlsOnSchemaTables(schema)
+		]
 	}),
 	email: resendAdapter({
 		defaultFromAddress: "noreply@jp-wedding.day",
